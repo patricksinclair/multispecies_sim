@@ -24,8 +24,8 @@ class BioSystem {
 
     private int immigration_index;
 
-    private double deterioration_rate = 0.022;
-    private double biofilm_threshold = 0.7;
+    private double deterioration_rate = 0.0168;
+    private double biofilm_threshold = 0.75;
     private double immigration_rate = 0.8;
     private double migration_rate = 0.2;
     private double tau = 0.2; //much larger value now that the bug is fixed
@@ -318,11 +318,56 @@ class BioSystem {
 
     }
 
-    private static DataBox getEventCountersAndRunPops_Subroutine(double duration, int nMeasurements, int runID, double scale, double sigma){
+
+
+    static void getEventCountersAndRunPopulations(int nCores, int nBlocks, double scale, double sigma, String folderID){
+        //this is the method for the big runs to get the population distributions over time
+        //it returns a csv file that for each run contains the event counters
+        //it also returns a folder full of the bacteria distributions for each run, sampled at regular intervals
+        //these are used to make those pink and blue plots of the geno distbs over space and time
+        long startTime = System.currentTimeMillis();
+        int nRuns = nCores*nBlocks; //total number of simulations performed
+        int nSamples = 100; //no of samples taken during the runs
+
+        double duration = 26.*7.*24.; //26 week duration
+        //double duration = 52.*7.*24.; //1 year duration
+        //double duration = 1000.;
+        //double duration = 2048.;
+
+        String results_directory_name = "all_run_populations"+folderID;
+        String[] headers = new String[]{"run_ID", "bf thickness", "final_pop", "n_deaths", "n_detachments", "n_immigrations", "n_replications", "n_migrations", "exit time"};
+        DataBox[] dataBoxes = new DataBox[nRuns];
+        String event_counters_filename = "multispecies-t="+String.format("%.3f", duration)+"-event_counters-sigma="+String.format("%.5f", sigma);
+        String mh_pops_over_time_filename = "multispecies-t="+String.format("%.3f", duration)+"-sigma="+String.format("%.5f", sigma)+"-mh_pops-runID=";
+
+        for(int j = 0; j < nBlocks; j++){
+            System.out.println("section: "+j);
+
+            IntStream.range(j*nCores, (j+1)*nCores).parallel().forEach(i ->
+                    dataBoxes[i] = getEventCountersAndRunPops_Subroutine(duration, nSamples, i, scale, sigma));
+        }
+
+
+        Toolbox.writeDataboxEventCountersToFile(results_directory_name, event_counters_filename, headers, dataBoxes);
+
+        for(int i = 0; i < dataBoxes.length; i++){
+            String run_filename = mh_pops_over_time_filename+String.valueOf(dataBoxes[i].getRunID());
+            Toolbox.writeDataboxMicrohabPopsToFile(results_directory_name, run_filename, dataBoxes[i]);
+        }
+
+
+        long finishTime = System.currentTimeMillis();
+        String diff = Toolbox.millisToShortDHMS(finishTime - startTime);
+        System.out.println("results written to file");
+        System.out.println("Time taken: "+diff);
+
+    }
+
+    private static DataBox getEventCountersAndRunPops_Subroutine(double duration, int nSamples, int runID, double scale, double sigma){
 
         int K = 120;
         double c_max = 10.0, alpha = 0.01;
-        double interval = duration/nMeasurements;
+        double interval = duration/nSamples;
         boolean alreadyRecorded = false;
 
         BioSystem bs = new BioSystem(alpha, c_max, scale, sigma);
@@ -354,13 +399,16 @@ class BioSystem {
 
 
 
-    static void timeToFailure(int nReps, double scale, double sigma, String folderID){
-
+    static void timeToFailure(int nCores, int nBlocks, double scale, double sigma, String folderID){
+        //this method is used to find the time to failure as a function of various paramters (in this case % resistant)
+        //the simulations run until they reach a failure criteria (currently a thickness of 1)
         long startTime = System.currentTimeMillis();
 
-        int n_runs_per_section = 20;
-        int n_sections = nReps/n_runs_per_section;
-        int nMeasurements = 100;
+//        int n_runs_per_section = 20;
+//        int n_sections = nReps/n_runs_per_section;
+//        int nMeasurements = 100;
+        int nRuns = nCores*nBlocks; //total number of simulations performed
+        int nSamples = 100; //no of samples taken during the runs
 
         double duration = 52.*7.*24.; //1 year duration
         //double duration = 1000.;
@@ -369,15 +417,14 @@ class BioSystem {
         String results_directory_name = "time_to_failure"+folderID;
         String[] headers = new String[]{"run_ID", "bf thickness", "final_pop", "n_deaths", "n_detachments", "n_immigrations", "n_replications",
                 "n_migrations", "exit time", "failure time"};
-        DataBox[] dataBoxes = new DataBox[nReps];
-        String event_counters_filename = "pyrithione-t="+String.valueOf(duration)+"-parallel-event_counters_sigma="+String.format("%.5f", sigma);
-        //String mh_pops_over_time_filename = "pyrithione-t="+String.valueOf(duration)+"-sigma="+String.format("%.5f", sigma)+"-mh_pops-runID=";
+        DataBox[] dataBoxes = new DataBox[nRuns];
+        String event_counters_filename = "multispecies-t="+String.valueOf(duration)+"-parallel-event_counters_sigma="+String.format("%.5f", sigma);
 
-        for(int j = 0; j < n_sections; j++){
+        for(int j = 0; j < nBlocks; j++){
             System.out.println("section: "+j);
 
-            IntStream.range(j*n_runs_per_section, (j+1)*n_runs_per_section).parallel().forEach(i ->
-                    dataBoxes[i] = timeToFailure_subroutine(duration, nMeasurements, i, scale, sigma));
+            IntStream.range(j*nCores, (j+1)*nCores).parallel().forEach(i ->
+                    dataBoxes[i] = timeToFailure_subroutine(duration, nSamples, i, scale, sigma));
         }
 
 
@@ -391,11 +438,11 @@ class BioSystem {
     }
 
 
-    private static DataBox timeToFailure_subroutine(double duration, int nMeasurements, int runID, double scale, double sigma){
+    private static DataBox timeToFailure_subroutine(double duration, int nSamples, int runID, double scale, double sigma){
 
         int K = 120;
         double c_max = 10.0, alpha = 0.01;
-        double interval = duration/nMeasurements;
+        double interval = duration/nSamples;
         boolean alreadyRecorded = false;
 
         BioSystem bs = new BioSystem(alpha, c_max, scale, sigma);
@@ -428,11 +475,6 @@ class BioSystem {
 
 
 
-
-
-
 }
 
-
-}
 
