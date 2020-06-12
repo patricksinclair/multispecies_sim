@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#$ -N multispec-bigRun-97pc # job name
+#$ -N multispec-bigRun-95pc # job name
 #$ -V           # use all shell environment variables
 #$ -cwd         # run job in working directory
 # #$ -j y         # merge stdout and stderr to one file
