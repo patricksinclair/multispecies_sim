@@ -13,7 +13,7 @@
 # Choose a parallel environment:
 # Check options with "qconf -spl"
 # Check details with "qconf -sp <pe-name>"
-#$ -pe mpi 16       # asks for n processors for an mpi job
+#$ -pe mpi 20       # asks for n processors for an mpi job
 #$ -l h_vmem=2G     # asks for n Gb of memory
 # Send mail at submission and completion of script
 #$ -m be
