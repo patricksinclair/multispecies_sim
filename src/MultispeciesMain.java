@@ -26,6 +26,6 @@ public class MultispeciesMain {
         String folderID_testing = "-99-test-steadystate";
 
         //BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks, scale_95, sigma_95, folderID95);
-        BioSystem.timeToFailure(nCores, nBlocks, scale_99, sigma_99, folderID99);
+        BioSystem.timeToFailure(nCores, nBlocks, scale_98, sigma_98, folderID98);
     }
 }
