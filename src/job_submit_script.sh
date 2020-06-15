@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#$ -N multispec-bigRun-95pc # job name
+#$ -N multispec-TTF-99pc # job name
 #$ -V           # use all shell environment variables
 #$ -cwd         # run job in working directory
 # #$ -j y         # merge stdout and stderr to one file
@@ -41,6 +41,6 @@ time {
 # put the usual mpirun command here
 # the shell variable $NSLOTS is the number of cores you asked for above
 
-java -cp ".:java_jars/*" MultispeciesMain $NSLOTS > varying_params.out
+java -cp ".:java_jars/*" MultispeciesMain $NSLOTS > ttf_log.out
 
 }

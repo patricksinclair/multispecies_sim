@@ -157,10 +157,19 @@ class BioSystem {
             microhabitats.get(immigration_index).setImmigration_zone(true);
         }
 
+        //todo - use this condition for the species composition simulations
         //this stops sims going onn unnecessarily too long. if the biofilm reaches the thickness limit then we record the
         //time this happened at and move on
-        if(getSystemSize()==thickness_limit){
+//        if(getSystemSize()==thickness_limit){
+//            exit_time = time_elapsed;
+//            time_elapsed = 9e9; //this way the time elapsed is now way above the duration value, so the simulation will stop
+//        }
+
+        //todo - use this condition for the time to failure simulations
+        //if immigration index is the same as the failure limit, then we also move on
+        if(getSystemSize() == thickness_limit || immigration_index == failure_limit) {
             exit_time = time_elapsed;
+            failure_time = time_elapsed;
             time_elapsed = 9e9; //this way the time elapsed is now way above the duration value, so the simulation will stop
         }
     }
