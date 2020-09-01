@@ -106,139 +106,6 @@ public class Toolbox {
 
 
 
-
-
-
-    public static void writeHistoArrayToFile(String filename, int[] inputData){
-        try {
-            File file = new File(filename+".txt");
-            if(!file.exists()) file.createNewFile();
-
-            FileWriter fw = new FileWriter(file.getAbsoluteFile());
-            BufferedWriter bw = new BufferedWriter(fw);
-
-            int nReadings = inputData.length;
-
-            for(int i = 0; i < nReadings-1; i++){
-
-                String output = String.format("%d", inputData[i]);
-
-                bw.write(output);
-                bw.newLine();
-            }
-            String output = String.format("%d", inputData[nReadings-1]);
-            bw.write(output);
-            bw.close();
-        }catch (IOException e){}
-    }
-
-
-
-
-
-
-
-
-
-
-    public static void writeMultipleColumnsToFile(String filename, String[] headers, double[][] results){
-
-        try{
-            File file = new File(filename+".txt");
-            if(!file.exists()) file.createNewFile();
-
-            FileWriter fw = new FileWriter(file.getAbsoluteFile());
-            BufferedWriter bw = new BufferedWriter(fw);
-
-            int ncols = headers.length;
-            int string_length = Math.max(12, Toolbox.largestHeaderLength(headers)+3);
-            String head_start = "#"+headers[0]+",";
-            String file_header = String.format("%-"+string_length+"s", head_start);
-            for(int i = 1; i < headers.length-1; i++){
-                String heado = headers[i]+",";
-                file_header += String.format("%-"+string_length+"s", heado);
-            }
-            String heado = headers[headers.length-1];
-            file_header += String.format("%-"+string_length+"s", heado);
-            bw.write(file_header);
-            bw.newLine();
-
-
-            for(int i = 0; i < results[0].length; i++){
-
-                String output = "";
-
-                for(int nc = 0; nc < ncols-1; nc++){
-                    String num_val = String.format("%.4E", results[nc][i])+",";
-                    output += String.format("%-"+string_length+"s", num_val);
-                }
-                String num_val = String.format("%.4E", results[ncols-1][i]);
-                output += String.format("%-"+string_length+"s", num_val);
-
-                bw.write(output);
-                bw.newLine();
-            }
-            bw.close();
-
-        }catch (IOException e){}
-    }
-
-
-
-
-    static void writeCountersToFile(String filename, String[] headers, int[][] counters){
-        try{
-            File file = new File(filename+".txt");
-            if(!file.exists()) file.createNewFile();
-
-            FileWriter fw = new FileWriter(file.getAbsoluteFile());
-            BufferedWriter bw = new BufferedWriter(fw);
-
-            int ncols = headers.length;
-            int string_length = Math.max(12, Toolbox.largestHeaderLength(headers)+3);
-            String file_header = headers[0];
-            for(int h = 1; h < headers.length; h++){
-                file_header += ","+headers[h];
-            }
-//
-//            String head_start = "#"+headers[0]+",";
-//            String file_header = String.format("%-"+string_length+"s", head_start);
-//            for(int i = 1; i < headers.length-1; i++){
-//                String heado = headers[i]+",";
-//                file_header += String.format("%-"+string_length+"s", heado);
-//            }
-//            String heado = headers[headers.length-1];
-//            file_header += String.format("%-"+string_length+"s", heado);
-            bw.write(file_header);
-            bw.newLine();
-
-
-            for(int i = 0; i < counters.length; i++){
-
-                String output = String.format("%d", counters[i][0]);
-
-                for(int nc = 0; nc < ncols; nc++){
-                    output += String.format(",%d", counters[i][nc]);
-                }
-
-
-//                for(int nc = 0; nc < ncols-1; nc++){
-//                    String num_val = String.format("%d", counters[i][nc])+",";
-//                    output += String.format("%-"+string_length+"s", num_val);
-//                }
-//                String num_val = String.format("%d", counters[i][ncols-1]);
-//                output += String.format("%-"+string_length+"s", num_val);
-
-                bw.write(output);
-                bw.newLine();
-            }
-            bw.close();
-
-        }catch (IOException e){}
-
-    }
-
-
     static void writeDataboxEventCountersToFile(String directoryName, String filename, String[] headers, DataBox[] dataBoxes){
 
 
@@ -280,17 +147,9 @@ public class Toolbox {
                 int[] event_counters = dataBoxes[i].getEvent_counters();
                 String output = String.format("%d", event_counters[0]);
 
-                for(int nc = 0; nc < ncols; nc++){
+                for(int nc = 1; nc < ncols; nc++){
                     output += String.format(",%d", event_counters[nc]);
                 }
-
-
-//                for(int nc = 0; nc < ncols-1; nc++){
-//                    String num_val = String.format("%d", counters[i][nc])+",";
-//                    output += String.format("%-"+string_length+"s", num_val);
-//                }
-//                String num_val = String.format("%d", counters[i][ncols-1]);
-//                output += String.format("%-"+string_length+"s", num_val);
 
                 bw.write(output);
                 bw.newLine();

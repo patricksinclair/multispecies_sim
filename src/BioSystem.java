@@ -347,7 +347,7 @@ class BioSystem {
         String phaseID = String.valueOf(phase_params[0]);
         String suscepID_andDate = String.valueOf(suscep_params[0]);
         //headers used for the counters file
-        String[] headers = new String[]{"bf thickness", "exit time", "final_pop", "n_deaths", "n_detachments", "n_immigrations", "n_migrations", "n_replications", "run_ID"};
+        String[] headers = new String[]{"runID", "bf_thickness", "exit_time", "final_pop", "n_deaths", "n_detachments", "n_immigrations", "n_migrations", "n_replications"};
 
         double scale = (double)suscep_params[1];
         double sigma = (double)suscep_params[2];
