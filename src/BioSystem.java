@@ -25,7 +25,7 @@ class BioSystem {
     private double deterioration_rate; // = 0.0168;
     private int K = 550;
     private double g_max = 0.083; //maximum value of the growth rate (2 per day)
-    private double immigration_rate = 20;
+    private double immigration_rate = 20.;
     private double migration_rate = 1.;
     private double tau = 0.2; //much larger value now that the bug is fixed
     private double delta_x = 1.; //thickness of a microhabitat in microns
@@ -339,7 +339,7 @@ class BioSystem {
         int nRuns = nCores*nBlocks; //total number of simulations performed
         int nSamples = 100; //no of samples taken during the runs
         //double duration = 26.*7.*24.; //26 week duration
-        double duration = 1024.; //testing duration
+        double duration = 512.; //testing duration
 
         DataBox[] dataBoxes = new DataBox[nRuns]; //this will be used to store all the data
 
@@ -402,7 +402,7 @@ class BioSystem {
             if((bs.getTimeElapsed()%interval <= 0.02*interval) && !alreadyRecorded){
 
                 int max_poss_pop = bs.getSystemSize()*K;
-                System.out.println("runID: "+runID+"\tt: "+bs.getTimeElapsed()+"\tpop size: "+bs.getTotalN()+"/"+max_poss_pop+"\tbf_edge: "+bs.getBiofilmEdge()+"\tK*: "+bs.biofilm_threshold+"\tdet_r: "+bs.deterioration_rate);
+                System.out.println("runID: "+runID+"\tt: "+bs.getTimeElapsed()+"\tpop size: "+bs.getTotalN()+"/"+max_poss_pop+"\tbf_edge: "+bs.getBiofilmEdge()+"\tN*: "+bs.biofilm_threshold+"\tdet_r: "+bs.deterioration_rate);
                 alreadyRecorded = true;
 
                 times.add(bs.getTimeElapsed());

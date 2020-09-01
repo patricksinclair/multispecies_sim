@@ -26,7 +26,7 @@ public class Toolbox {
 
             //each run has its own directory so we add the run ID here
             //subDirectoryName += dataBox.getRunID();
-            directoryName += dataBox.getRunID();
+            directoryName += "/runID_"+dataBox.getRunID();
             File directory = new File(directoryName);
             if(!directory.exists()) directory.mkdirs();
 
@@ -35,7 +35,7 @@ public class Toolbox {
 
                 //create a new file for each timestep
                 //
-                String file_name = "geno_distb"+String.format("-t=%.5E", dataBox.getTimes().get(t));
+                String file_name = "geno_distb"+String.format("-t=%.2f", dataBox.getTimes().get(t));
                 File file = new File(directoryName+"/"+file_name+".csv");
                 //if(!file.exists()) file.createNewFile();
 
@@ -246,7 +246,7 @@ public class Toolbox {
         File directory = new File(directoryName);
         if(!directory.exists()) directory.mkdirs();
 
-        File file = new File(directoryName+"/"+filename+".txt");
+        File file = new File(directoryName+"/"+filename+".csv");
         //if(!file.exists()) file.createNewFile();
 
 
