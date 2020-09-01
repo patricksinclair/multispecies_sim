@@ -415,7 +415,7 @@ class BioSystem {
         }
         if((int)bs.exit_time == 0) bs.exit_time = duration;
 
-        int[] event_counters = new int[]{runID, bs.getBiofilmThickness(), bs.getTotalN(), bs.getDeath_counts(), bs.getDetachment_counts(), bs.getImmigration_counts(), bs.getMigration_counts(), bs.getReplication_counts(),  (int)bs.getExit_time()};
+        int[] event_counters = new int[]{runID, bs.getBiofilmThickness(), (int)bs.getExit_time(), bs.getTotalN(), bs.getDeath_counts(), bs.getDetachment_counts(), bs.getImmigration_counts(), bs.getMigration_counts(), bs.getReplication_counts()};
 
         return new DataBox(runID, event_counters, times, mh_pops_over_time);
     }
