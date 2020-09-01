@@ -2,30 +2,32 @@ public class MultispeciesMain {
 
     public static void main(String[] args) {
 
+        //todo - make sure alpha is changed to correspond with the new parameter values
+
         int nCores = Integer.parseInt(args[0]); //no. of cores used in parallel runs
-        int nBlocks = 50; //no. of times a parallel run is performed.  total no. of runs = nCores * nBlocks.
+        int nBlocks = 2; //no. of times a parallel run is performed.  total no. of runs = nCores * nBlocks.
+        //runID_offset is used to adjust the run ID for successive runs, so that it starts at runID_offset instead of 0
+        int runID_offset = 0;
+        String date = "-01-Sep-2020";
 
-        double scale_99 = 2.71760274, sigma_99 = 0.56002833;
-        double scale_98 = 2.54669037, sigma_98 = 0.66599239;
-        double scale_97 = 2.37276256, sigma_97 = 0.76486794;
-        double scale_96 = 2.17434104, sigma_96 = 0.87159677;
-        double scale_95 = 1.9246899,  sigma_95 = 1.00179994;
-        double scale_94 = 1.54590048, sigma_94 = 1.20080013;
-        double scale_93 = 1.01073016, sigma_93 = 1.51389233;
-        double scale_90 = 1.01115312, sigma_90 = 1.51378016;
+        //Depending on our choices of N* and r_det we will either be in phase 2 or 4 of the bftt phase diagram
+        //Need to save our values in the corresponding results directory
+        //we'll use an object array to store [directory_ID, N*, r_det_ratio]
+        Object[] phase2_params = new Object[]{"_phase2", 0.775, 0.22};
+        Object[] phase4_params = new Object[]{"_phase4", 0.65, 0.66};
 
-        String date = "-15-June-2020";
-        String folderID99 = "-99_suscep"+date;
-        String folderID98 = "-98_suscep"+date;
-        String folderID97 = "-97_suscep"+date;
-        String folderID96 = "-96_suscep"+date;
-        String folderID95 = "-95_suscep"+date;
-        String folderID94 = "-94_suscep"+date;
-        String folderID93 = "-93_suscep"+date;
-        String folderID90 = "-90_suscep"+date;
-        String folderID_testing = "-99-test-steadystate";
+        //also need folder ID depending on our values of the geno distbs.
+        //we'll use an object array to store [subDirectory_ID, scale, sigma]
+        Object[] params_99_suscep = new Object[]{"99_suscep"+date, 2.71760274, 0.56002833};
+        Object[] params_98_suscep = new Object[]{"98_suscep"+date, 2.54669037, 0.66599239};
+        Object[] params_97_suscep = new Object[]{"97_suscep"+date, 2.37276256, 0.76486794};
+        Object[] params_96_suscep = new Object[]{"96_suscep"+date, 2.17434104, 0.87159677};
+        Object[] params_95_suscep = new Object[]{"95_suscep"+date, 1.9246899,  1.00179994};
+        Object[] params_94_suscep = new Object[]{"94_suscep"+date, 1.54590048, 1.20080013};
+        Object[] params_93_suscep = new Object[]{"93_suscep"+date, 1.01073016, 1.51389233};
 
-        //BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks, scale_95, sigma_95, folderID95);
-        BioSystem.timeToFailure(nCores, nBlocks, scale_93, sigma_93, folderID93);
+
+        BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks, params_97_suscep, phase2_params);
+        //BioSystem.timeToFailure(nCores, nBlocks, scale_93, sigma_93, folderID93);
     }
 }

@@ -1,0 +1,8 @@
+#!/bin/bash
+#adds all the files to git and commits in one easy script
+git add git_add_script #script that adds itself to git
+git add src
+
+git commit -m "$1"
+
+git push -u origin master

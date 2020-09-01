@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#$ -N multispec-TTF-93pc # job name
+#$ -N multispec-TTF-97pc-TESTING # job name
 #$ -V           # use all shell environment variables
 #$ -cwd         # run job in working directory
 # #$ -j y         # merge stdout and stderr to one file
@@ -13,14 +13,14 @@
 # Choose a parallel environment:
 # Check options with "qconf -spl"
 # Check details with "qconf -sp <pe-name>"
-#$ -pe mpi 20       # asks for n processors for an mpi job
+#$ -pe mpi 10       # asks for n processors for an mpi job
 #$ -l h_vmem=2G     # asks for n Gb of memory
 # Send mail at submission and completion of script
 #$ -m be
 #$ -M p.sinclair@ed.ac.uk
 
 # Set job runtime
-#$ -l h_rt=24:00:00               # I leave this set at 7 days (set at 24 hours for 1 day queue)
+#$ -l h_rt=168:00:00               # I leave this set at 7 days (set at 24 hours for 1 day queue)
 
 
 # load any required modules
