@@ -5,7 +5,7 @@ public class MultispeciesMain {
         //todo - make sure alpha is changed to correspond with the new parameter values
 
         int nCores = Integer.parseInt(args[0]); //no. of cores used in parallel runs
-        int nBlocks = 2; //no. of times a parallel run is performed.  total no. of runs = nCores * nBlocks.
+        int nBlocks = 5; //no. of times a parallel run is performed.  total no. of runs = nCores * nBlocks.
         //runID_offset is used to adjust the run ID for successive runs, so that it starts at runID_offset instead of 0
         int runID_offset = 0;
         String date = "-01-Sep-2020";

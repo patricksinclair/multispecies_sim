@@ -338,8 +338,8 @@ class BioSystem {
         long startTime = System.currentTimeMillis();
         int nRuns = nCores*nBlocks; //total number of simulations performed
         int nSamples = 100; //no of samples taken during the runs
-        //double duration = 26.*7.*24.; //26 week duration
-        double duration = 512.; //testing duration
+        double duration = 26.*7.*24.; //26 week duration
+        //double duration = 512.; //testing duration
 
         DataBox[] dataBoxes = new DataBox[nRuns]; //this will be used to store all the data
 
