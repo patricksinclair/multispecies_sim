@@ -23,12 +23,12 @@ class BioSystem {
 
     private double biofilm_threshold; //= 0.75;
     private double deterioration_rate; // = 0.0168;
-    private int K = 550;
-    private double g_max = 0.083; //maximum value of the growth rate (2 per day)
-    private double immigration_rate = 20.;
-    private double migration_rate = 1.;
+    private final int K = 550;
+    private final double g_max = 0.083; //maximum value of the growth rate (2 per day)
+    private final double immigration_rate = 20.;
+    private final double migration_rate = 1.;
+    private final double delta_x = 1.; //thickness of a microhabitat in microns
     private double tau = 0.2; //much larger value now that the bug is fixed
-    private double delta_x = 1.; //thickness of a microhabitat in microns
     //this is how big the system can get before we exit. should reduce overall simulation duration
     private int thickness_limit = 40;
     //this is how thick the biofilm can get before the system is deemed to have "failed"
@@ -349,7 +349,7 @@ class BioSystem {
         String phaseID = String.valueOf(phase_params[0]);
         String suscepID_andDate = String.valueOf(suscep_params[0]);
         //headers used for the counters file
-        String[] headers = new String[]{"runID", "bf_thickness", "exit_time", "final_pop", "n_deaths", "n_detachments", "n_immigrations", "n_migrations", "n_replications"};
+        String[] headers = new String[]{"runID", "bf_thickness", "exit_time", "final_pop", "avg_pop", "n_deaths", "n_detachments", "n_immigrations", "n_migrations", "n_replications"};
 
         double scale = (double)suscep_params[1];
         double sigma = (double)suscep_params[2];
@@ -373,11 +373,10 @@ class BioSystem {
 
         Toolbox.writeDataboxEventCountersToFile(run_directory, counters_filename, headers, dataBoxes);
 
-        for(int i = 0; i < dataBoxes.length; i++){
+        for (DataBox dataBox : dataBoxes) {
 
-            Toolbox.writeGenosOverTimeToCSV(run_directory, dataBoxes[i]);
-//            String run_filename = mh_pops_over_time_filename+String.valueOf(dataBoxes[i].getRunID());
-//            Toolbox.writeDataboxMicrohabPopsToFile(results_directory_name, run_filename, dataBoxes[i]);
+            Toolbox.writeGenosOverTimeToCSV(run_directory, dataBox);
+
         }
 
 
@@ -398,6 +397,7 @@ class BioSystem {
         BioSystem bs = new BioSystem(alpha, c_max, biofilm_threshold, deterioration_ratio, scale, sigma);
         ArrayList<ArrayList<ArrayList<Double>>> mh_pops_over_time = new ArrayList<>();
         ArrayList<Double> times = new ArrayList<>();
+        ArrayList<Integer> totalN_overTime = new ArrayList<>(); //this is used to track the pop size over time, can then average it at the end and save as a counter
 
         while(bs.time_elapsed <= duration+0.02*interval){
 
@@ -408,7 +408,8 @@ class BioSystem {
                 alreadyRecorded = true;
 
                 times.add(bs.getTimeElapsed());
-                mh_pops_over_time.add(bs.getMicrohabPopulations()); //added in now
+                mh_pops_over_time.add(bs.getMicrohabPopulations());
+                totalN_overTime.add(bs.getTotalN());
 
             }
             if(bs.getTimeElapsed()%interval >= 0.1*interval) alreadyRecorded = false;
@@ -417,7 +418,7 @@ class BioSystem {
         }
         if((int)bs.exit_time == 0) bs.exit_time = duration;
 
-        int[] event_counters = new int[]{runID, bs.getBiofilmThickness(), (int)bs.getExit_time(), bs.getTotalN(), bs.getDeath_counts(), bs.getDetachment_counts(), bs.getImmigration_counts(), bs.getMigration_counts(), bs.getReplication_counts()};
+        int[] event_counters = new int[]{runID, bs.getBiofilmThickness(), (int)bs.getExit_time(), bs.getTotalN(), Toolbox.averageArraylist(totalN_overTime), bs.getDeath_counts(), bs.getDetachment_counts(), bs.getImmigration_counts(), bs.getMigration_counts(), bs.getReplication_counts()};
 
         return new DataBox(runID, event_counters, times, mh_pops_over_time);
     }

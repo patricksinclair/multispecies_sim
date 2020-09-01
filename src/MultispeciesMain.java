@@ -13,8 +13,9 @@ public class MultispeciesMain {
         //Depending on our choices of N* and r_det we will either be in phase 2 or 4 of the bftt phase diagram
         //Need to save our values in the corresponding results directory
         //we'll use an object array to store [directory_ID, N*, r_det_ratio]
-        Object[] phase2_params = new Object[]{"_phase2", 0.775, 0.22};
-        Object[] phase4_params = new Object[]{"_phase4", 0.65, 0.66};
+        //weren't getting any results with the initial values we chose, so instead lets try the values that gave the thickest biofilm
+        Object[] phase2_params = new Object[]{"_phase2", 0.775, 0.14};
+        Object[] phase4_params = new Object[]{"_phase4", 0.625, 0.7};
 
         //also need folder ID depending on our values of the geno distbs.
         //we'll use an object array to store [subDirectory_ID, scale, sigma]

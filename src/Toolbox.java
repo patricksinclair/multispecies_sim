@@ -16,7 +16,7 @@ public class Toolbox {
         //For simplicity, we'll write these csv files such that each row represents a microhabitat,
         //then we can transpose the dataframes in python later
 
-        //todo - check how the data is stored in the simulation here
+
         //All the data in a run is stored in a databox.
         //Here, for each databox passed to this method, we iterate through the times list and the 3D arraylist containing all the geno data
         //use outer index of arraylist to iterate through geno(t) and the times list
@@ -61,49 +61,6 @@ public class Toolbox {
 
 
     }
-
-
-
-
-    private static int largestHeaderLength(String[] headers){
-        int biggun = 0;
-        for(String s : headers){
-            if(s.length() > biggun) biggun = s.length();
-        }
-        return biggun;
-    }
-
-    private static double averageOfArrayList(ArrayList<Double> listo){
-
-        if(listo.size() > 0) {
-            double sum = 0.;
-
-            for(Double d : listo) {
-                sum += d;
-            }
-
-            return sum/(double) listo.size();
-        }else{
-            return 0.;
-        }
-    }
-
-    private static double[] averageAndStDevOfArray(double[] results){
-        double sum = 0.;
-        for(double d : results){
-            sum += d;
-        }
-        double mean = sum/results.length;
-
-        double sumSq = 0.;
-        for(double d : results){
-            sumSq +=(d-mean)*(d-mean);
-        }
-        double stDev = Math.sqrt(sumSq/(results.length - 1.));
-
-        return new double[]{mean, stDev};
-    }
-
 
 
     static void writeDataboxEventCountersToFile(String directoryName, String filename, String[] headers, DataBox[] dataBoxes){
@@ -160,64 +117,57 @@ public class Toolbox {
 
     }
 
-
-    static void writeDataboxMicrohabPopsToFile(String directoryName, String filename, DataBox dataBox){
-
-        File directory = new File(directoryName);
-        if(!directory.exists()) directory.mkdirs();
-
-        File file = new File(directoryName+"/"+filename+".txt");
-
-        try{
-
-            FileWriter fw = new FileWriter(file.getAbsoluteFile());
-            BufferedWriter bw = new BufferedWriter(fw);
-
-            ArrayList<Double> times = dataBox.getTimes();
-            ArrayList<ArrayList<ArrayList<Double>>> mh_pops_over_time = dataBox.getAll_microhab_pops();
-
-
-            int string_length = 12;
-
-            for(int t = 0; t < mh_pops_over_time.size(); t++){
-
-                bw.write("#t = "+String.format("%.3E", times.get(t)));
-                bw.newLine();
-
-                for(int mh = 0; mh < mh_pops_over_time.get(t).size(); mh++){
-
-                    String output = "";
-                    int nbac = mh_pops_over_time.get(t).get(mh).size();
-
-                    for(int b = 0; b < nbac-1; b++){
-
-                        String geno_val = String.format("%.5E", mh_pops_over_time.get(t).get(mh).get(b))+",";
-                        output += String.format("%-"+string_length+"s", geno_val);
-                    }
-                    //need to handle if the array is of length 0 - think this does that
-                    if(nbac > 0){
-                        String geno_val = String.format("%.5E", mh_pops_over_time.get(t).get(mh).get(nbac-1));
-                        output += String.format("%-"+string_length+"s", geno_val);
-                    }
-
-                    if(nbac==0){
-                        //adds a negative value to avoid empty strings
-                        String empty_val = String.format("%.5E", -9999.0);
-                        output += String.format("%-"+string_length+"s", empty_val);
-                    }
-
-                    bw.write(output);
-                    bw.newLine();
-                }
-            }
-
-            bw.close();
-
-        }catch (IOException e){}
+    public static int averageArraylist(ArrayList<Integer> pops){
+        //calculates the average value of the population size
+        //can add this to the event counters
+        double runningTotal = 0;
+        for(int p : pops){
+            runningTotal += p;
+        }
+        return (int)(runningTotal/(double)pops.size());
     }
 
 
 
+
+    private static int largestHeaderLength(String[] headers){
+        int biggun = 0;
+        for(String s : headers){
+            if(s.length() > biggun) biggun = s.length();
+        }
+        return biggun;
+    }
+
+    private static double averageOfArrayList(ArrayList<Double> listo){
+
+        if(listo.size() > 0) {
+            double sum = 0.;
+
+            for(Double d : listo) {
+                sum += d;
+            }
+
+            return sum/(double) listo.size();
+        }else{
+            return 0.;
+        }
+    }
+
+    private static double[] averageAndStDevOfArray(double[] results){
+        double sum = 0.;
+        for(double d : results){
+            sum += d;
+        }
+        double mean = sum/results.length;
+
+        double sumSq = 0.;
+        for(double d : results){
+            sumSq +=(d-mean)*(d-mean);
+        }
+        double stDev = Math.sqrt(sumSq/(results.length - 1.));
+
+        return new double[]{mean, stDev};
+    }
 
 
 

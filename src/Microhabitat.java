@@ -13,7 +13,7 @@ class Microhabitat {
     private double g_max = 0.083; //max growth rate =  2/day
     private double uniform_dRate = 0.018; //all bacteria have this death rate
     double biofilm_threshold; //fraction occupied needed to transition to biofilm
-    double b = 0.2; //migration rate
+
 
     Microhabitat(int K, double c, double scale, double sigma, double biofilm_threshold){
         this.K = K;
@@ -67,12 +67,6 @@ class Microhabitat {
         return fractionFull() >= biofilm_threshold;
     }
 
-//    double migrate_rate(){
-//        //returns 0.5*b for the microhabitat next to the ship hull, to account for the inability to migrate into the hull
-//        //also for the microhabitat that's the biofilm edge
-//        double b = 0.2;
-//        return (surface || immigration_zone) ? 0.5*b : b;
-//    }
 
     private double beta(int index){
         return population.get(index);
