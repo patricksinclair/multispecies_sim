@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#$ -N multispec-genoDistb-97pc-TESTING # job name
+#$ -N multispec-genoDistb-95pc-TESTING # job name
 #$ -V           # use all shell environment variables
 #$ -cwd         # run job in working directory
 # #$ -j y         # merge stdout and stderr to one file
