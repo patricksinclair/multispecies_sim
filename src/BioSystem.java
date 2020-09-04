@@ -120,7 +120,7 @@ class BioSystem {
 
     private static double calc_C_i(int i, double c_max, double alpha, double delta_x){
         //updated so it's now the concentration in the middle of the microhabitat
-        double index = (i+1)/2.;
+        double index = (i+1.)/2.;
         return c_max*Math.exp(-alpha*index*delta_x);
     }
 
