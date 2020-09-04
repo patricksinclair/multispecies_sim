@@ -29,7 +29,7 @@ public class MultispeciesMain {
         Object[] params_93_suscep = new Object[]{"93_suscep"+date, 1.01073016, 1.51389233};
 
 
-        BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks, params_95_suscep, phase2_params);
+        BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks, params_97_suscep, phase2_params);
         //BioSystem.timeToFailure(nCores, nBlocks, scale_93, sigma_93, folderID93);
     }
 }
