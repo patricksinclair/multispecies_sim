@@ -163,7 +163,7 @@ class BioSystem {
         //todo - use this condition for the species composition simulations
         //this stops sims going onn unnecessarily too long. if the biofilm reaches the thickness limit then we record the
         //time this happened at and move on
-        if(getSystemSize()==thickness_limit){
+        if(immigration_index==thickness_limit){
             exit_time = time_elapsed;
             time_elapsed = 9e9; //this way the time elapsed is now way above the duration value, so the simulation will stop
         }
@@ -369,6 +369,7 @@ class BioSystem {
 
             IntStream.range(j*nCores, (j+1)*nCores).parallel().forEach(i ->
                     dataBoxes[i] = getEventCountersAndRunPops_Subroutine(duration, nSamples, i, biofilm_threshold, deterioration_ratio, scale, sigma));
+
         }
 
         Toolbox.writeDataboxEventCountersToFile(run_directory, counters_filename, headers, dataBoxes);

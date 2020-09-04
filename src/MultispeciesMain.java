@@ -14,7 +14,8 @@ public class MultispeciesMain {
         //Need to save our values in the corresponding results directory
         //we'll use an object array to store [directory_ID, N*, r_det_ratio]
         //weren't getting any results with the initial values we chose, so instead lets try the values that gave the thickest biofilm
-        Object[] phase2_params = new Object[]{"_phase2", 0.775, 0.14};
+        //phase2 params are now chosen for the lowest det rate
+        Object[] phase2_params = new Object[]{"_phase2", 0.8, 0.1};
         Object[] phase4_params = new Object[]{"_phase4", 0.625, 0.7};
 
         //also need folder ID depending on our values of the geno distbs.
