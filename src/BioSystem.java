@@ -391,7 +391,9 @@ class BioSystem {
     private static DataBox getEventCountersAndRunPops_Subroutine(double duration, int nSamples, int runID, double biofilm_threshold, double deterioration_ratio, double scale, double sigma){
 
         int K = 550;
-        double c_max = 10.0, alpha = 0.01;
+        //todo - in order to get some sort of growth ocurring, c_max has been lowered from 10 -> 6.
+        //todo - this is roughly equal to 2x the avg mic
+        double c_max = 6.0, alpha = 0.01;
         double interval = duration/nSamples;
         boolean alreadyRecorded = false;
 
