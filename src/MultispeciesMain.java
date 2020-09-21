@@ -9,7 +9,7 @@ public class MultispeciesMain {
         int nBlocks = 10; //no. of times a parallel run is performed.  total no. of runs = nCores * nBlocks.
         //runID_offset is used to adjust the run ID for successive runs, so that it starts at runID_offset instead of 0
         int runID_offset = 0;
-        String date = "-18-Sep-2020";
+        String date = "-21-Sep-2020";
 
         //Depending on our choices of N* and r_det we will either be in phase 2 or 4 of the bftt phase diagram
         //Need to save our values in the corresponding results directory
@@ -21,13 +21,13 @@ public class MultispeciesMain {
 
         //also need folder ID depending on our values of the geno distbs.
         //we'll use an object array to store [subDirectory_ID, scale, sigma]
-        //these are the new updated versions for c_max = 6.
-        Object[] params_8_resistant = new Object[]{"8_resistant"+date, 2.70825993, 0.56614558};
-        Object[] params_10_resistant = new Object[]{"10_resistant"+date, 2.53711338, 0.6716238};
-        Object[] params_12_resistant = new Object[]{"12_resistant"+date, 2.22826069, 0.84302476};
+        //third attempt to get growth to occur. now c_max is set to 5.
+        Object[] params_14_resistant = new Object[]{"14_resistant"+date, 2.703747953786337, 0.5690825284230452};
+        Object[] params_15_resistant = new Object[]{"15_resistant"+date, 2.6133256846855746, 0.6260058161550592};
+        Object[] params_16_resistant = new Object[]{"16_resistant"+date, 2.47772924764521, 0.7060073500033884};
 
 
-        BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks, params_8_resistant, phase2_params);
+        BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks, params_14_resistant, phase2_params);
         //BioSystem.timeToFailure(nCores, nBlocks, scale_93, sigma_93, folderID93);
     }
 
@@ -40,4 +40,10 @@ public class MultispeciesMain {
 //    Object[] params_95_suscep = new Object[]{"95_suscep"+date, 1.9246899,  1.00179994};
 //    Object[] params_94_suscep = new Object[]{"94_suscep"+date, 1.54590048, 1.20080013};
 //    Object[] params_93_suscep = new Object[]{"93_suscep"+date, 1.01073016, 1.51389233};
+
+    //these are the new updated versions for c_max = 6.
+    //these were also found to be insufficient for growth to occur, so we'll lower c_max again
+//    Object[] params_8_resistant = new Object[]{"8_resistant"+date, 2.70825993, 0.56614558};
+//    Object[] params_10_resistant = new Object[]{"10_resistant"+date, 2.53711338, 0.6716238};
+//    Object[] params_12_resistant = new Object[]{"12_resistant"+date, 2.22826069, 0.84302476};
 }
