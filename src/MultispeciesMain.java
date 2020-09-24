@@ -9,7 +9,7 @@ public class MultispeciesMain {
         int nBlocks = 10; //no. of times a parallel run is performed.  total no. of runs = nCores * nBlocks.
         //runID_offset is used to adjust the run ID for successive runs, so that it starts at runID_offset instead of 0
         int runID_offset = 0;
-        String date = "-21-Sep-2020";
+        String date = "-24-Sep-2020";
 
         //Depending on our choices of N* and r_det we will either be in phase 2 or 4 of the bftt phase diagram
         //Need to save our values in the corresponding results directory
