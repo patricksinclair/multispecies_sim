@@ -332,7 +332,7 @@ class BioSystem {
 
 
 
-    static void getEventCountersAndRunPopulations(int nCores, int nBlocks, Object[] suscep_params, Object[] phase_params){
+    static void getEventCountersAndRunPopulations(int nCores, int nBlocks, Object[] suscep_params, Object[] phase_params, int runID_offset){
         //this is the method for the big runs to get the population distributions over time
         //it returns a csv file that for each run contains the event counters
         //it also returns a folder full of the bacteria distributions for each run, sampled at regular intervals
@@ -368,7 +368,7 @@ class BioSystem {
             System.out.println("section: "+j);
 
             IntStream.range(j*nCores, (j+1)*nCores).parallel().forEach(i ->
-                    dataBoxes[i] = getEventCountersAndRunPops_Subroutine(duration, nSamples, i, biofilm_threshold, deterioration_ratio, scale, sigma));
+                    dataBoxes[i] = getEventCountersAndRunPops_Subroutine(duration, nSamples, i, biofilm_threshold, deterioration_ratio, scale, sigma, runID_offset));
 
         }
 
@@ -388,7 +388,7 @@ class BioSystem {
 
     }
 
-    private static DataBox getEventCountersAndRunPops_Subroutine(double duration, int nSamples, int runID, double biofilm_threshold, double deterioration_ratio, double scale, double sigma){
+    private static DataBox getEventCountersAndRunPops_Subroutine(double duration, int nSamples, int runID, double biofilm_threshold, double deterioration_ratio, double scale, double sigma, int runID_offset){
 
         int K = 550;
         //todo - in order to get some sort of growth ocurring, c_max has been lowered from 10 -> 6 -> 5.
@@ -396,6 +396,8 @@ class BioSystem {
         double c_max = 5.0, alpha = 0.01;
         double interval = duration/nSamples;
         boolean alreadyRecorded = false;
+        //added in the runID_offset, this should make it somewhat easier to combine runs from successive dates
+        int runID_adjusted = runID+runID_offset;
 
         BioSystem bs = new BioSystem(alpha, c_max, biofilm_threshold, deterioration_ratio, scale, sigma);
         ArrayList<ArrayList<ArrayList<Double>>> mh_pops_over_time = new ArrayList<>();
@@ -407,7 +409,7 @@ class BioSystem {
             if((bs.getTimeElapsed()%interval <= 0.02*interval) && !alreadyRecorded){
 
                 int max_poss_pop = bs.getSystemSize()*K;
-                System.out.println("runID: "+runID+"\tt: "+bs.getTimeElapsed()+"\tpop size: "+bs.getTotalN()+"/"+max_poss_pop+"\tbf_edge: "+bs.getBiofilmEdge()+"\tN*: "+bs.biofilm_threshold+"\tdet_r: "+bs.deterioration_rate);
+                System.out.println("runID: "+runID_adjusted+"\tt: "+bs.getTimeElapsed()+"\tpop size: "+bs.getTotalN()+"/"+max_poss_pop+"\tbf_edge: "+bs.getBiofilmEdge()+"\tN*: "+bs.biofilm_threshold+"\tdet_r: "+bs.deterioration_rate);
                 alreadyRecorded = true;
 
                 times.add(bs.getTimeElapsed());
@@ -421,9 +423,10 @@ class BioSystem {
         }
         if((int)bs.exit_time == 0) bs.exit_time = duration;
 
-        int[] event_counters = new int[]{runID, bs.getBiofilmThickness(), (int)bs.getExit_time(), bs.getTotalN(), Toolbox.averageArraylist(totalN_overTime), bs.getDeath_counts(), bs.getDetachment_counts(), bs.getImmigration_counts(), bs.getMigration_counts(), bs.getReplication_counts()};
 
-        return new DataBox(runID, event_counters, times, mh_pops_over_time);
+        int[] event_counters = new int[]{runID_adjusted, bs.getBiofilmThickness(), (int)bs.getExit_time(), bs.getTotalN(), Toolbox.averageArraylist(totalN_overTime), bs.getDeath_counts(), bs.getDetachment_counts(), bs.getImmigration_counts(), bs.getMigration_counts(), bs.getReplication_counts()};
+
+        return new DataBox(runID_adjusted, event_counters, times, mh_pops_over_time);
     }
 
 
