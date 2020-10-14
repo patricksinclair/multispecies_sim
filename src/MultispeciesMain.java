@@ -6,10 +6,12 @@ public class MultispeciesMain {
 
         int nCores = Integer.parseInt(args[0]); //no. of cores used in parallel runs
         //changed nBlocks to 10, we'll do 10x10 runs to get more cores available
+        //todo - for 16% resistance, do 5 blocks on 20 cores, as they take too long otherwise
         int nBlocks = 10; //no. of times a parallel run is performed.  total no. of runs = nCores * nBlocks.
         //runID_offset is used to adjust the run ID for successive runs, so that it starts at runID_offset instead of 0
-        int runID_offset = 100;
-        String date = "-09-Oct-2020";
+        //todo - make sure the runID_offset is correct
+        int runID_offset = 200;
+        String date = "-14-Oct-2020";
 
         //Depending on our choices of N* and r_det we will either be in phase 2 or 4 of the bftt phase diagram
         //Need to save our values in the corresponding results directory
