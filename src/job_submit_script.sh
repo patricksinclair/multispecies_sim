@@ -8,19 +8,19 @@
 # Choose a queue:
 # Check options with "qconf -sql"
 # Check details with "qconf -sq <q-name>"
-#$ -q cm.7.day
+#$ -q sopa.1.day
 
 # Choose a parallel environment:
 # Check options with "qconf -spl"
 # Check details with "qconf -sp <pe-name>"
-#$ -pe mpi 10       # asks for n processors for an mpi job
+#$ -pe mpi 25       # asks for n processors for an mpi job
 #$ -l h_vmem=2G     # asks for n Gb of memory
 # Send mail at submission and completion of script
 #$ -m be
 #$ -M p.sinclair@ed.ac.uk
 
 # Set job runtime
-#$ -l h_rt=168:00:00               # I leave this set at 7 days (set at 24 hours for 1 day queue)
+#$ -l h_rt=24:00:00               # I leave this set at 7 days (set at 24 hours for 1 day queue)
 
 
 # load any required modules
