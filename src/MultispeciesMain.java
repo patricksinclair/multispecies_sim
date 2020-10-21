@@ -7,11 +7,15 @@ public class MultispeciesMain {
         int nCores = Integer.parseInt(args[0]); //no. of cores used in parallel runs
         //changed nBlocks to 10, we'll do 10x10 runs to get more cores available
         //todo - for 16% resistance, do 5 blocks on 20 cores, as they take too long otherwise
+        //todo - for 16% resistance, 100 runs takes too long, so we'll do 50 at a time, 10 cores 5 blocks.
+        //todo - this will require a different runID offset
         int nBlocks = 10; //no. of times a parallel run is performed.  total no. of runs = nCores * nBlocks.
+        int nBlocks_16 = 5;
         //runID_offset is used to adjust the run ID for successive runs, so that it starts at runID_offset instead of 0
-        //todo - make sure the runID_offset is correct
+        //todo - make sure the runID_offset is correct (add on 100 for 14/15%, 50 for 16%
         int runID_offset = 200;
-        String date = "-14-Oct-2020";
+        int runID_offset_16 = 100;
+        String date = "-09-Oct-2020";
 
         //Depending on our choices of N* and r_det we will either be in phase 2 or 4 of the bftt phase diagram
         //Need to save our values in the corresponding results directory
@@ -28,7 +32,9 @@ public class MultispeciesMain {
         Object[] params_15_resistant = new Object[]{"15_resistant"+date, 2.6133256846855746, 0.6260058161550592};
         Object[] params_16_resistant = new Object[]{"16_resistant"+date, 2.47772924764521, 0.7060073500033884};
 
-        BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks, params_14_resistant, phase2_params, runID_offset);
+        //BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks, params_14_resistant, phase2_params, runID_offset);
+        //BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks, params_15_resistant, phase2_params, runID_offset);
+        BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_16, params_16_resistant, phase2_params, runID_offset_16);
         //BioSystem.timeToFailure(nCores, nBlocks, scale_93, sigma_93, folderID93);
     }
 
