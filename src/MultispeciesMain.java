@@ -7,19 +7,19 @@ public class MultispeciesMain {
         int nCores = Integer.parseInt(args[0]); //no. of cores used in parallel runs
         //changed nBlocks to 10, we'll do 10x10 runs to get more cores available
         //todo - for 14% resistance, make sure no. of cores is 10 (100 runs at a time)
-        //todo - for 15% resistance, do 2 blocks on 25 cores, as they take too long otherwise
-        //todo - for 16% resistance, 100 runs takes too long, so we'll do 25 at a time, 25 cores 1 block
+        //todo - for 15% resistance, make sure no. of cores is 25 (50 runs at a time)
+        //todo - for 16% resistance, make sure no. of cores is 25 (25 runs at a time)
         //todo - this will require a different runID offset
         //no. of times a parallel run is performed.  total no. of runs = nCores * nBlocks.
-        int nBlocks_14 = 10;
-        int nBlocks_15 = 2;
+        int nBlocks_14 = 10; //10 runs on each of 10 cores
+        int nBlocks_15 = 2; //2 runs on each of 25 cores
         int nBlocks_16 = 1; //1 run on each of 25 cores
         //runID_offset is used to adjust the run ID for successive runs, so that it starts at runID_offset instead of 0
         //todo - make sure the runID_offset is correct (add on 100 for 14, 50 for 15%, 25 for 16%)
-        int runID_offset_14 = 200;
-        int runID_offset_15 = 200;
-        int runID_offset_16 = 125;
-        String date = "-14-Oct-2020"; //session 3
+        int runID_offset_14 = 300; //session 4
+        int runID_offset_15 = 250; //session 4
+        int runID_offset_16 = 150; //session 4
+        String date = "-06-Nov-2020"; //session 4
 
         //Depending on our choices of N* and r_det we will either be in phase 2 or 4 of the bftt phase diagram
         //Need to save our values in the corresponding results directory
@@ -36,8 +36,8 @@ public class MultispeciesMain {
         Object[] params_15_resistant = new Object[]{"15_resistant"+date, 2.6133256846855746, 0.6260058161550592};
         Object[] params_16_resistant = new Object[]{"16_resistant"+date, 2.47772924764521, 0.7060073500033884};
 
-        //BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_14, params_14_resistant, phase2_params, runID_offset_14);
-        BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_15, params_15_resistant, phase2_params, runID_offset_15);
+        BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_14, params_14_resistant, phase2_params, runID_offset_14);
+        //BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_15, params_15_resistant, phase2_params, runID_offset_15);
         //BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_16, params_16_resistant, phase2_params, runID_offset_16);
         //BioSystem.timeToFailure(nCores, nBlocks, scale_93, sigma_93, folderID93);
     }
