@@ -37,8 +37,8 @@ public class MultispeciesMain {
         Object[] params_16_resistant = new Object[]{"16_resistant"+date, 2.47772924764521, 0.7060073500033884};
 
         //BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_14, params_14_resistant, phase2_params, runID_offset_14);
-        BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_15, params_15_resistant, phase2_params, runID_offset_15);
-        //BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_16, params_16_resistant, phase2_params, runID_offset_16);
+        //BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_15, params_15_resistant, phase2_params, runID_offset_15);
+        BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_16, params_16_resistant, phase2_params, runID_offset_16);
         //BioSystem.timeToFailure(nCores, nBlocks, scale_93, sigma_93, folderID93);
     }
 
