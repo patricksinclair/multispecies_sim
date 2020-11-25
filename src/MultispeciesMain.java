@@ -16,10 +16,10 @@ public class MultispeciesMain {
         int nBlocks_16 = 1; //1 run on each of 25 cores
         //runID_offset is used to adjust the run ID for successive runs, so that it starts at runID_offset instead of 0
         //todo - make sure the runID_offset is correct (add on 100 for 14, 25 for 15%, 25 for 16%) - check the end of the counters dataframe
-        int runID_offset_14 = 400; //session 5
-        int runID_offset_15 = 300; //session 5
-        int runID_offset_16 = 175; //session 5
-        String date = "-16-Nov-2020"; //session 5
+        int runID_offset_14 = 500; //session 6
+        int runID_offset_15 = 325; //session 6
+        int runID_offset_16 = 200; //session 6
+        String date = "-25-Nov-2020"; //session 6
 
         //Depending on our choices of N* and r_det we will either be in phase 2 or 4 of the bftt phase diagram
         //Need to save our values in the corresponding results directory
@@ -36,8 +36,8 @@ public class MultispeciesMain {
         Object[] params_15_resistant = new Object[]{"15_resistant"+date, 2.6133256846855746, 0.6260058161550592};
         Object[] params_16_resistant = new Object[]{"16_resistant"+date, 2.47772924764521, 0.7060073500033884};
 
-        //BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_14, params_14_resistant, phase2_params, runID_offset_14);
-        BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_15, params_15_resistant, phase2_params, runID_offset_15);
+        BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_14, params_14_resistant, phase2_params, runID_offset_14);
+        //BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_15, params_15_resistant, phase2_params, runID_offset_15);
         //BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_16, params_16_resistant, phase2_params, runID_offset_16);
         //BioSystem.timeToFailure(nCores, nBlocks, scale_93, sigma_93, folderID93);
     }
