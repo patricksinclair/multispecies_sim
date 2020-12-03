@@ -16,10 +16,12 @@ public class MultispeciesMain {
         int nBlocks_16 = 1; //1 run on each of 25 cores
         //runID_offset is used to adjust the run ID for successive runs, so that it starts at runID_offset instead of 0
         //todo - make sure the runID_offset is correct (add on 100 for 14, 25 for 15%, 25 for 16%) - check the end of the counters dataframe
-        int runID_offset_14 = 500; //session 6
-        int runID_offset_15 = 325; //session 6
-        int runID_offset_16 = 200; //session 6
-        String date = "-25-Nov-2020"; //session 6
+        //todo - accidentally did 250 runs on the 25-Nov-2020 14% run, make sure the runID is updated correctly accordingly
+        //todo - do 150 runs for session 7 of 14%, this should balance it out.
+        int runID_offset_14 = 750; //session 7
+        int runID_offset_15 = 350; //session 7
+        int runID_offset_16 = 225; //session 7
+        String date = "-03-Dec-2020"; //session 7
 
         //Depending on our choices of N* and r_det we will either be in phase 2 or 4 of the bftt phase diagram
         //Need to save our values in the corresponding results directory

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#$ -N multispec-genoDistb-16pc-phase2-session6 # job name
+#$ -N multispec-genoDistb-14pc-phase2-session7 # job name
 #$ -V           # use all shell environment variables
 #$ -cwd         # run job in working directory
 # #$ -j y         # merge stdout and stderr to one file
@@ -13,7 +13,7 @@
 # Choose a parallel environment:
 # Check options with "qconf -spl"
 # Check details with "qconf -sp <pe-name>"
-#$ -pe mpi 25       # asks for n processors for an mpi job
+#$ -pe mpi 15       # asks for n processors for an mpi job
 #$ -l h_vmem=2G     # asks for n Gb of memory
 # Send mail at submission and completion of script
 #$ -m be
