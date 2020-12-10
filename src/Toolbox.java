@@ -117,6 +117,40 @@ public class Toolbox {
 
     }
 
+    static void writeTimeToFailureDataToFile(String directoryID, String fileID, String[] headers, DataBox[] dataBoxes){
+        //Method to write the many time to failure times.  Two columns with runID and exit time.
+
+        File directory = new File(directoryID);
+        if(!directory.exists()) directory.mkdirs();
+
+        File file = new File(directoryID+"/"+fileID+".csv");
+
+        try{
+            FileWriter fw = new FileWriter(file.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
+
+            //write the headers to the file
+            String file_header = "";
+            for(int i = 0; i < headers.length; i++){
+                file_header += headers[i]+",";
+            }
+            file_header += headers[headers.length-1];
+            bw.write(file_header);
+
+            //write all data from seperate runs to the file
+            //only 2 entries so do it manually
+            for(DataBox db : dataBoxes){
+                bw.newLine();
+                String output = String.format("%d,%.3f", db.getRunID(), db.getExit_time());
+                bw.write(output);
+            }
+
+            bw.close();
+
+        }catch (IOException e){}
+
+    }
+
     public static int averageArraylist(ArrayList<Integer> pops){
         //calculates the average value of the population size
         //can add this to the event counters

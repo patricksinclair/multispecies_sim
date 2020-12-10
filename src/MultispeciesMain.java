@@ -25,9 +25,9 @@ public class MultispeciesMain {
 
         //Depending on our choices of N* and r_det we will either be in phase 2 or 4 of the bftt phase diagram
         //Need to save our values in the corresponding results directory
-        //we'll use an object array to store [directory_ID, N*, r_det_ratio]
         //weren't getting any results with the initial values we chose, so instead lets try the values that gave the thickest biofilm
         //phase2 params are now chosen for the lowest det rate
+        //we'll use an object array to store [directory_ID, N*, r_det_ratio]
         Object[] phase2_params = new Object[]{"_phase2", 0.75, 0.22};
         Object[] phase4_params = new Object[]{"_phase4", 0.625, 0.7};
 
@@ -40,8 +40,18 @@ public class MultispeciesMain {
 
         //BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_14, params_14_resistant, phase2_params, runID_offset_14);
         //BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_15, params_15_resistant, phase2_params, runID_offset_15);
-        BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_16, params_16_resistant, phase2_params, runID_offset_16);
+        //BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_16, params_16_resistant, phase2_params, runID_offset_16);
         //BioSystem.timeToFailure(nCores, nBlocks, scale_93, sigma_93, folderID93);
+
+        //time to failure params
+        //[fileID, scale, sigma, c_max]
+        double c_max = 5.;
+        int nBlocks = 20;
+        Object[] ttf_14_resistant_params = new Object[]{"timeToFailure-14_pc_res", 2.703747953786337, 0.5690825284230452, c_max};
+        Object[] ttf_15_resistant_params = new Object[]{"timeToFailure-15_pc_res", 2.6133256846855746, 0.6260058161550592, c_max};
+        Object[] ttf_16_resistant_params = new Object[]{"timeToFailure-16_pc_res", 2.47772924764521, 0.7060073500033884, c_max};
+        //todo - make sure the update biofilm size method has the failure limit check included. (actually changed the thickness limit arguments so this might not be necessary).
+        BioSystem.timeToFailure_vs_c_max(nCores, nBlocks, ttf_14_resistant_params, phase2_params);
     }
 
 //    these are the outdated values for the distributions from when c_max was 10.
@@ -60,31 +70,4 @@ public class MultispeciesMain {
 //    Object[] params_10_resistant = new Object[]{"10_resistant"+date, 2.53711338, 0.6716238};
 //    Object[] params_12_resistant = new Object[]{"12_resistant"+date, 2.22826069, 0.84302476};
 }
-//    static void timeToNthMicrohabPhaseDiagram(Object[] params, int nCores, int microhab_lim){
-//        //this method is used to make a colour plot of the time taken to reach the Nth microhabitat as
-//        //a function of N* and r_det
-//        //save all the values for each of the runs in seperate dataframes, then do averaging etc later manually
-//        //todo - make sure the failure limit thing is set up correctly
-//
-//        String[] headers = new String[]{"n_thresh", "det_ratio", "time_to_n", "time_elapsed"};
-//        String results_directory = "/Disk/ds-sopa-personal/s1212500/multispecies-sims/biofilm_threshold_theory/"+params[0];
-//
-//        double duration = 1000.;
-//        int nMeasurements = 20;
-//        double N_thresh_min = 0., N_thresh_max = 1.5;
-//        double N_thresh_increment = (N_thresh_max - N_thresh_min)/nMeasurements;
-//        double r_det_ratio_min = 0., r_det_ratio_max = 1.5;
-//        double r_det_ratio_increment = (r_det_ratio_max - r_det_ratio_min)/nMeasurements;
-//        //ArrayList<DataBox[]> dataBoxes = new ArrayList<>();
-//
-//        for(int nt = 0; nt <= nMeasurements; nt++){
-//            for(int dr = 0; dr <= nMeasurements; dr++){
-//                double n_thresh = N_thresh_min + (nt*N_thresh_increment);
-//                double det_ratio = r_det_ratio_min + (dr*r_det_ratio_increment);
-//
-//                DataBox[] dataBoxes = timeToNthMicrohabPhaseDiagram_subroutine(nCores, duration, params, n_thresh, det_ratio, microhab_lim);
-//                String filename = String.format("mhLim-%d_N^-%.3f_rDet-%.3f", microhab_lim, n_thresh, det_ratio);
-//                Toolbox.writeTimeToNthMicrohabDataToFile(results_directory, filename, headers, dataBoxes);
-//            }
-//        }
-//    }
+

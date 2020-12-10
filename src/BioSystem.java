@@ -30,9 +30,9 @@ class BioSystem {
     private final double delta_x = 1.; //thickness of a microhabitat in microns
     private double tau = 0.2; //much larger value now that the bug is fixed
     //this is how big the system can get before we exit. should reduce overall simulation duration
-    private int thickness_limit = 40;
+    private int thickness_limit;
     //this is how thick the biofilm can get before the system is deemed to have "failed"
-    private int failure_limit = 1;
+    private int failure_limit;
     private int detachment_counts = 0, death_counts = 0, replication_counts = 0, immigration_counts = 0, migration_counts = 0, n_tauHalves = 0;
 
 
@@ -49,6 +49,35 @@ class BioSystem {
         this.exit_time = 0.;
         this.failure_time = 0.;
         this.immigration_index = 0;
+
+        //added these initialisers here so we can change the thickness limit with another constructor for the time to failure runs
+        //value of 40 for the geno distb ones.
+        this.thickness_limit = 40;
+        this.failure_limit = 1;
+
+        microhabitats.add(new Microhabitat(K, calc_C_i(0, this.c_max, this.alpha, this.delta_x), scale, sigma, this.biofilm_threshold));
+
+        microhabitats.get(0).setSurface();
+        microhabitats.get(0).addARandomBacterium_x_N(5);
+    }
+
+    private BioSystem(double alpha, double c_max, double biofilm_threshold, double deterioration_ratio, double scale, double sigma, int thickness_limit){
+
+        this.alpha = alpha;
+        this.c_max = c_max;
+        this.biofilm_threshold = biofilm_threshold;
+        this.deterioration_rate = deterioration_ratio*g_max; //this is now in terms of the g_max ratio, as seen in the biofilm threshold theory stuff
+        this.scale = scale;
+        this.sigma = sigma;
+        this.microhabitats = new ArrayList<>();
+        this.time_elapsed = 0.;
+        this.exit_time = 0.;
+        this.failure_time = 0.;
+        this.immigration_index = 0;
+
+        //added these initialisers here so we can change the thickness limit with another constructor for the time to failure runs
+        this.thickness_limit = thickness_limit;
+        this.failure_limit = thickness_limit;
 
         microhabitats.add(new Microhabitat(K, calc_C_i(0, this.c_max, this.alpha, this.delta_x), scale, sigma, this.biofilm_threshold));
 
@@ -427,6 +456,77 @@ class BioSystem {
         int[] event_counters = new int[]{runID_adjusted, bs.getBiofilmThickness(), (int)bs.getExit_time(), bs.getTotalN(), Toolbox.averageArraylist(totalN_overTime), bs.getDeath_counts(), bs.getDetachment_counts(), bs.getImmigration_counts(), bs.getMigration_counts(), bs.getReplication_counts()};
 
         return new DataBox(runID_adjusted, event_counters, times, mh_pops_over_time);
+    }
+
+
+    static void timeToFailure_vs_c_max(int nCores, int nReps, Object[] suscep_params, Object[] phase_params){
+        //TODO - MAKE SURE THE SECTION IN THE UPDATE BIOFILM SIZE METHOD REGARDING FAILURE LIMIT IS UNCOMMENTED (THE SECOND IF STATEMENT).
+        long startTime = System.currentTimeMillis();
+        // Updated version of the old time to failure routine.  Here we will see how changing c_max affects the rate at which
+        // the biofilm can form.  We'll do several values of c_max for each of the current percent resistant.
+        // Will need to be careful with wording here.  As the x% resistant corresponds to a lognorm distb with c_max = 5,
+        // varying c_max means that we'll need to be careful with terminology.  Maybe refer to % resistance as small, medium, large in the paper.
+
+        // Method takes in no. of cores, no. of reps per core and an array containing the system parameters
+
+        String results_directory = "/Disk/ds-sopa-personal/s1212500/multispecies-sims/time_to_failure";
+        String file_ID = suscep_params[0]+String.format("-c_max=%.2f", suscep_params[3]);
+        String[] headers = new String[]{"runID", "failure_time"};
+
+        double duration = 26.*7.*24.; //26 week duration
+
+        int nRuns = nCores*nReps;
+        DataBox[] dataBoxes = new DataBox[nRuns];
+
+        for(int j = 0; j < nReps; j++){
+
+            IntStream.range(j*nCores, (j+1)*nCores).parallel().forEach(i ->
+                    dataBoxes[i] = timeToFailure_vs_c_max_subroutine(duration, i, suscep_params, phase_params));
+        }
+
+        Toolbox.writeTimeToFailureDataToFile(results_directory, file_ID, headers, dataBoxes);
+
+        long finishTime = System.currentTimeMillis();
+        String diff = Toolbox.millisToShortDHMS(finishTime - startTime);
+        System.out.println("results written to file");
+        System.out.println("Time taken: "+diff);
+
+    }
+
+    private static DataBox timeToFailure_vs_c_max_subroutine(double duration, int i, Object[] suscep_params, Object[] phase_params){
+
+        //extract parameters from the arrays
+        double c_max = (double)suscep_params[3];
+        double alpha = 0.01; //this stays fixed.
+        double scale = (double)suscep_params[1];
+        double sigma = (double)suscep_params[2];
+        double biofilm_threshold = (double)phase_params[1];
+        double deterioration_ratio = (double)phase_params[2];
+        int thickness_limit = 1; //immigration index limit, sim ends when it gets to this value
+
+        BioSystem bs = new BioSystem(alpha, c_max, biofilm_threshold, deterioration_ratio, scale, sigma, thickness_limit);
+        System.out.println("run: "+i);
+        //todo - took out the interval thing for now as it doesn't hugely matter for this method if we're not sampling over time
+        while(bs.time_elapsed <= duration){
+            //don't bother with the sampling things for now
+//            if((bs.getTimeElapsed()%interval <= 0.02*interval) && !alreadyRecorded){
+//
+//                int max_poss_pop = bs.getSystemSize()*K;
+//                System.out.println("runID: "+runID_adjusted+"\tt: "+bs.getTimeElapsed()+"\tpop size: "+bs.getTotalN()+"/"+max_poss_pop+"\tbf_edge: "+bs.getBiofilmEdge()+"\tN*: "+bs.biofilm_threshold+"\tdet_r: "+bs.deterioration_rate);
+//                alreadyRecorded = true;
+//
+//                times.add(bs.getTimeElapsed());
+//                mh_pops_over_time.add(bs.getMicrohabPopulations());
+//                totalN_overTime.add(bs.getTotalN());
+//
+//            }
+//            if(bs.getTimeElapsed()%interval >= 0.1*interval) alreadyRecorded = false;
+
+            bs.performAction();
+        }
+        if((int)bs.exit_time == 0) bs.exit_time = duration;
+
+        return new DataBox(i, bs.exit_time);
     }
 
 
