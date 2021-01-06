@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#$ -N multispec-genoDistb-14pc-phase2-session8 # job name
+#$ -N multispec-genoDistb-15pc-phase2-session9 # job name
 # #$ -N multispec-ttf-14pc-phase2-cmax_5 # job name
 #$ -V           # use all shell environment variables
 #$ -cwd         # run job in working directory
