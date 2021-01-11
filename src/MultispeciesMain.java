@@ -17,6 +17,7 @@ public class MultispeciesMain {
         //runID_offset is used to adjust the run ID for successive runs, so that it starts at runID_offset instead of 0
         //todo - make sure the runID_offset is correct (add on 100 for 14, 25 for 15%, 25 for 16%) - check the end of the counters dataframe
         int runID_offset_14 = 850; //session 8 WE NOW HAVE 1100 RUNS FOR 14%, SO CAN STOP RUNNING THESE FOR NOW
+        //todo - trying these on the 24 hour queue for now
         int runID_offset_15 = 425; //session 10
         int runID_offset_16 = 300; //session 10
         String date = "-11-Jan-2021"; //session 10
