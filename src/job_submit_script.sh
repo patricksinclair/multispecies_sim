@@ -1,7 +1,7 @@
 #!/bin/sh
 
-#$ -N multispec-genoDistb-15pc-phase2-session11 # job name
-# #$ -N multispec-ttf-14pc-phase2-cmax_5 # job name
+# #$ -N multispec-genoDistb-15pc-phase2-session11 # job name
+#$ -N multispec-ttf-14pc-phase2-cmax_5.2 # job name
 #$ -V           # use all shell environment variables
 #$ -cwd         # run job in working directory
 # #$ -j y         # merge stdout and stderr to one file

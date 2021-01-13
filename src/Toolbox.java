@@ -131,7 +131,7 @@ public class Toolbox {
 
             //write the headers to the file
             String file_header = "";
-            for(int i = 0; i < headers.length; i++){
+            for(int i = 0; i < headers.length-1; i++){
                 file_header += headers[i]+",";
             }
             file_header += headers[headers.length-1];

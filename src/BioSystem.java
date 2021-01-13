@@ -473,7 +473,8 @@ class BioSystem {
         String file_ID = suscep_params[0]+String.format("-c_max=%.2f", suscep_params[3]);
         String[] headers = new String[]{"runID", "failure_time"};
 
-        double duration = 26.*7.*24.; //26 week duration
+        //double duration = 26.*7.*24.; //26 week duration
+        double duration = 365.*24.; //1 year duration
 
         int nRuns = nCores*nReps;
         DataBox[] dataBoxes = new DataBox[nRuns];
