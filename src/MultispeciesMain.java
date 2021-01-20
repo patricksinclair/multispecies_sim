@@ -17,10 +17,10 @@ public class MultispeciesMain {
         //runID_offset is used to adjust the run ID for successive runs, so that it starts at runID_offset instead of 0
         //todo - make sure the runID_offset is correct (add on 100 for 14, 25 for 15%, 25 for 16%) - check the end of the counters dataframe
         int runID_offset_14 = 850; //session 8 WE NOW HAVE 1100 RUNS FOR 14%, SO CAN STOP RUNNING THESE FOR NOW
-        //todo - trying these on the 24 hour queue for now (update: it looks like 15% runs can go on 24 hour, but sometimes the 16% runs need a bit more)
-        int runID_offset_15 = 475; //session 12
-        int runID_offset_16 = 350; //session 12
-        String date = "-18-Jan-2021"; //session 12
+        //todo - trying these on the 24 hour queue for now (update: occasionally both the 15% and 16% runs need >24 hour, so week queue)
+        int runID_offset_15 = 500; //session 13
+        int runID_offset_16 = 375; //session 13
+        String date = "-20-Jan-2021"; //session 13
 
         //Depending on our choices of N* and r_det we will either be in phase 2 or 4 of the bftt phase diagram
         //Need to save our values in the corresponding results directory
@@ -38,8 +38,8 @@ public class MultispeciesMain {
         Object[] params_16_resistant = new Object[]{"16_resistant"+date, 2.47772924764521, 0.7060073500033884};
 
         //BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_14, params_14_resistant, phase2_params, runID_offset_14);
-        //BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_15, params_15_resistant, phase2_params, runID_offset_15);
-        BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_16, params_16_resistant, phase2_params, runID_offset_16);
+        BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_15, params_15_resistant, phase2_params, runID_offset_15);
+        //BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_16, params_16_resistant, phase2_params, runID_offset_16);
 
         //time to failure params
         //[fileID, scale, sigma, c_max]
