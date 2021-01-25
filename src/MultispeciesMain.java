@@ -6,21 +6,23 @@ public class MultispeciesMain {
 
         int nCores = Integer.parseInt(args[0]); //no. of cores used in parallel runs
         //changed nBlocks to 10, we'll do 10x10 runs to get more cores available
+        //todo - below values are a bit outdated, see further below for new values (25/1/21)
         //todo - for 14% resistance, make sure no. of cores is 10 (100 runs at a time)
         //todo - for 15% resistance, make sure no. of cores is 25 (25 runs at a time)
         //todo - for 16% resistance, make sure no. of cores is 25 (25 runs at a time)
         //todo - this will require a different runID offset
         //no. of times a parallel run is performed.  total no. of runs = nCores * nBlocks.
         int nBlocks_14 = 10; //10 runs on each of 10 cores
-        int nBlocks_15 = 1; //1 run on each of 25 cores
-        int nBlocks_16 = 1; //1 run on each of 25 cores
+        int nBlocks_15 = 2; //2 runs on each of 25 cores
+        int nBlocks_16 = 2; //2 runs on each of 25 cores
         //runID_offset is used to adjust the run ID for successive runs, so that it starts at runID_offset instead of 0
-        //todo - make sure the runID_offset is correct (add on 100 for 14, 25 for 15%, 25 for 16%) - check the end of the counters dataframe
-        int runID_offset_14 = 850; //session 8 WE NOW HAVE 1100 RUNS FOR 14%, SO CAN STOP RUNNING THESE FOR NOW
+        //todo - make sure the runID_offset is correct (add on 250 for 14, 50 for 15%, 25 for 16%) - check the end of the counters dataframe
+        //todo - updated the above values from 25 -> 50 for 15% and 16%, change back if runs fail (25/1/21)
+        int runID_offset_14 = 1100; //session 13 (have 1100 runs but not many successful ones, so running these again now)
         //todo - trying these on the 24 hour queue for now (update: occasionally both the 15% and 16% runs need >24 hour, so week queue)
         int runID_offset_15 = 500; //session 13
         int runID_offset_16 = 375; //session 13
-        String date = "-20-Jan-2021"; //session 13
+        String date = "-25-Jan-2021"; //session 13
 
         //Depending on our choices of N* and r_det we will either be in phase 2 or 4 of the bftt phase diagram
         //Need to save our values in the corresponding results directory
@@ -33,12 +35,12 @@ public class MultispeciesMain {
         //also need folder ID depending on our values of the geno distbs.
         //we'll use an object array to store [subDirectory_ID, scale, sigma]
         //third attempt to get growth to occur. now c_max is set to 5.
-        //Object[] params_14_resistant = new Object[]{"14_resistant"+date, 2.703747953786337, 0.5690825284230452};
+        Object[] params_14_resistant = new Object[]{"14_resistant"+date, 2.703747953786337, 0.5690825284230452};
         Object[] params_15_resistant = new Object[]{"15_resistant"+date, 2.6133256846855746, 0.6260058161550592};
         Object[] params_16_resistant = new Object[]{"16_resistant"+date, 2.47772924764521, 0.7060073500033884};
 
-        //BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_14, params_14_resistant, phase2_params, runID_offset_14);
-        BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_15, params_15_resistant, phase2_params, runID_offset_15);
+        BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_14, params_14_resistant, phase2_params, runID_offset_14);
+        //BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_15, params_15_resistant, phase2_params, runID_offset_15);
         //BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_16, params_16_resistant, phase2_params, runID_offset_16);
 
         //time to failure params
