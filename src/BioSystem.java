@@ -470,7 +470,7 @@ class BioSystem {
         // Method takes in no. of cores, no. of reps per core and an array containing the system parameters
 
         String results_directory = "/Disk/ds-sopa-personal/s1212500/multispecies-sims/time_to_failure";
-        String file_ID = suscep_params[0]+String.format("-c_max=%.2f", suscep_params[3]);
+        String file_ID = suscep_params[0]+String.format("-c_max=%.2f", suscep_params[3])+"session-2";
         String[] headers = new String[]{"runID", "failure_time"};
 
         //double duration = 26.*7.*24.; //26 week duration
