@@ -7,16 +7,16 @@ public class MultispeciesMain {
         int nCores = Integer.parseInt(args[0]); //no. of cores used in parallel runs
         //changed nBlocks to 10, we'll do 10x10 runs to get more cores available
         //todo - below values are a bit outdated, see further below for new values (25/1/21)
-        //todo - for 14% resistance, make sure no. of cores is 10 (100 runs at a time)
+        //todo - for 14% resistance, make sure no. of cores is 4 (100 runs at a time)
         //todo - for 15% resistance, make sure no. of cores is 25 (25 runs at a time)
         //todo - for 16% resistance, make sure no. of cores is 25 (25 runs at a time)
         //todo - this will require a different runID offset
         //no. of times a parallel run is performed.  total no. of runs = nCores * nBlocks.
-        int nBlocks_14 = 10; //10 runs on each of 10 cores
+        int nBlocks_14 = 4; //4 runs on each of 25 cores
         int nBlocks_15 = 2; //2 runs on each of 25 cores
         int nBlocks_16 = 2; //2 runs on each of 25 cores
         //runID_offset is used to adjust the run ID for successive runs, so that it starts at runID_offset instead of 0
-        //todo - make sure the runID_offset is correct (add on 250 for 14, 50 for 15%, 25 for 16%) - check the end of the counters dataframe
+        //todo - make sure the runID_offset is correct (add on 100 for 14, 50 for 15%, 25 for 16%) - check the end of the counters dataframe
         //todo - updated the above values from 25 -> 50 for 15% and 16%, change back if runs fail (25/1/21)
         int runID_offset_14 = 1100; //session 13 (have 1100 runs but not many successful ones, so running these again now)
         //todo - trying these on the 24 hour queue for now (update: occasionally both the 15% and 16% runs need >24 hour, so week queue)
@@ -39,7 +39,7 @@ public class MultispeciesMain {
         Object[] params_15_resistant = new Object[]{"15_resistant"+date, 2.6133256846855746, 0.6260058161550592};
         Object[] params_16_resistant = new Object[]{"16_resistant"+date, 2.47772924764521, 0.7060073500033884};
 
-        //BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_14, params_14_resistant, phase2_params, runID_offset_14);
+        BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_14, params_14_resistant, phase2_params, runID_offset_14);
         //BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_15, params_15_resistant, phase2_params, runID_offset_15);
         //BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_16, params_16_resistant, phase2_params, runID_offset_16);
 
@@ -51,7 +51,7 @@ public class MultispeciesMain {
         Object[] ttf_15_resistant_params = new Object[]{"timeToFailure-15_pc_res", 2.6133256846855746, 0.6260058161550592, c_max};
         Object[] ttf_16_resistant_params = new Object[]{"timeToFailure-16_pc_res", 2.47772924764521, 0.7060073500033884, c_max};
         //todo - make sure the update biofilm size method has the failure limit check included. (actually changed the thickness limit arguments so this might not be necessary).
-        BioSystem.timeToFailure_vs_c_max(nCores, nBlocks, ttf_14_resistant_params, phase2_params);
+        //BioSystem.timeToFailure_vs_c_max(nCores, nBlocks, ttf_14_resistant_params, phase2_params);
     }
 
 //    these are the outdated values for the distributions from when c_max was 10.

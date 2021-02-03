@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#$ -N multispec-ttf-14pc-phase2-cmax_4.7 # job name
+#$ -N ttf-14pc-phase2-cmax_4.7 # job name
 #$ -V           # use all shell environment variables
 #$ -cwd         # run job in working directory
 # #$ -j y         # merge stdout and stderr to one file
