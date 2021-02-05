@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#$ -N ttf-14pc-phase2-cmax_4.7 # job name
+#$ -N ttf-14pc-phase2-r_imm_18.0 # job name
 #$ -V           # use all shell environment variables
 #$ -cwd         # run job in working directory
 # #$ -j y         # merge stdout and stderr to one file
@@ -41,6 +41,6 @@ time {
 # put the usual mpirun command here
 # the shell variable $NSLOTS is the number of cores you asked for above
 
-java -cp ".:java_jars/*" MultispeciesMain $NSLOTS > genoDistb_log.out
+java -cp ".:java_jars/*" TimeToFailureMain $NSLOTS > genoDistb_log.out
 
 }

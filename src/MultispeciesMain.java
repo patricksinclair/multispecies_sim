@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class MultispeciesMain {
 
     public static void main(String[] args) {
@@ -43,15 +45,7 @@ public class MultispeciesMain {
         //BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_15, params_15_resistant, phase2_params, runID_offset_15);
         //BioSystem.getEventCountersAndRunPopulations(nCores, nBlocks_16, params_16_resistant, phase2_params, runID_offset_16);
 
-        //time to failure params
-        //[fileID, scale, sigma, c_max]
-        double c_max = 4.7;
-        int nBlocks = 20;
-        Object[] ttf_14_resistant_params = new Object[]{"timeToFailure-14_pc_res", 2.703747953786337, 0.5690825284230452, c_max};
-        Object[] ttf_15_resistant_params = new Object[]{"timeToFailure-15_pc_res", 2.6133256846855746, 0.6260058161550592, c_max};
-        Object[] ttf_16_resistant_params = new Object[]{"timeToFailure-16_pc_res", 2.47772924764521, 0.7060073500033884, c_max};
-        //todo - make sure the update biofilm size method has the failure limit check included. (actually changed the thickness limit arguments so this might not be necessary).
-        //BioSystem.timeToFailure_vs_c_max(nCores, nBlocks, ttf_14_resistant_params, phase2_params);
+
     }
 
 //    these are the outdated values for the distributions from when c_max was 10.

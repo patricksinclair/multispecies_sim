@@ -25,7 +25,7 @@ class BioSystem {
     private double deterioration_rate; // = 0.0168;
     private final int K = 550;
     private final double g_max = 0.083; //maximum value of the growth rate (2 per day)
-    private final double immigration_rate = 20.;
+    private final double immigration_rate;// = 20.;
     private final double migration_rate = 1.;
     private final double delta_x = 1.; //thickness of a microhabitat in microns
     private double tau = 0.2; //much larger value now that the bug is fixed
@@ -49,6 +49,7 @@ class BioSystem {
         this.exit_time = 0.;
         this.failure_time = 0.;
         this.immigration_index = 0;
+        this.immigration_rate = 20.;
 
         //added these initialisers here so we can change the thickness limit with another constructor for the time to failure runs
         //value of 40 for the geno distb ones.
@@ -62,7 +63,7 @@ class BioSystem {
     }
 
     private BioSystem(double alpha, double c_max, double biofilm_threshold, double deterioration_ratio, double scale, double sigma, int thickness_limit){
-
+        //this constructor is used for the time to failure vs c_max sims.  thickness limit is set to 1 as any amount of biofilm is classed as a failure.
         this.alpha = alpha;
         this.c_max = c_max;
         this.biofilm_threshold = biofilm_threshold;
@@ -74,6 +75,32 @@ class BioSystem {
         this.exit_time = 0.;
         this.failure_time = 0.;
         this.immigration_index = 0;
+        this.immigration_rate = 20.;
+
+        //added these initialisers here so we can change the thickness limit with another constructor for the time to failure runs
+        this.thickness_limit = thickness_limit;
+        this.failure_limit = thickness_limit;
+
+        microhabitats.add(new Microhabitat(K, calc_C_i(0, this.c_max, this.alpha, this.delta_x), scale, sigma, this.biofilm_threshold));
+
+        microhabitats.get(0).setSurface();
+        microhabitats.get(0).addARandomBacterium_x_N(5);
+    }
+
+    private BioSystem(double alpha, double c_max, double biofilm_threshold, double deterioration_ratio, double scale, double sigma, int thickness_limit, double immigration_rate){
+        //this constructor is used for the time to failure vs r_imm sims.  thickness limit is set to 1 as any amount of biofilm is classed as a failure.
+        this.alpha = alpha;
+        this.c_max = c_max;
+        this.biofilm_threshold = biofilm_threshold;
+        this.deterioration_rate = deterioration_ratio*g_max; //this is now in terms of the g_max ratio, as seen in the biofilm threshold theory stuff
+        this.scale = scale;
+        this.sigma = sigma;
+        this.microhabitats = new ArrayList<>();
+        this.time_elapsed = 0.;
+        this.exit_time = 0.;
+        this.failure_time = 0.;
+        this.immigration_index = 0;
+        this.immigration_rate = immigration_rate;
 
         //added these initialisers here so we can change the thickness limit with another constructor for the time to failure runs
         this.thickness_limit = thickness_limit;
@@ -458,6 +485,57 @@ class BioSystem {
         return new DataBox(runID_adjusted, event_counters, times, mh_pops_over_time);
     }
 
+    static void timeToFailure_vs_r_imm(int nCores, int nReps, Object[] suscep_params, Object[] phase_params){
+        //TODO - MAKE SURE THE SECTION IN THE UPDATE BIOFILM SIZE METHOD REGARDING FAILURE LIMIT IS UNCOMMENTED (THE SECOND IF STATEMENT).
+        long startTime = System.currentTimeMillis();
+        //this version of the time to failure routine is used to investigate how changing the immigration rate affects the time to failure.
+        String results_directory = "/Disk/ds-sopa-personal/s1212500/multispecies-sims/time_to_failure_vs_r_imm";
+        String file_ID = suscep_params[0]+String.format("-r_imm=%.2f", suscep_params[4]);
+        String[] headers = new String[]{"runID", "failure_time"};
+
+        double duration = 365.*24.; //1 year duration.
+
+        int nRuns = nCores*nReps;
+        DataBox[] dataBoxes = new DataBox[nRuns];
+
+        for(int j = 0; j < nReps; j++){
+            IntStream.range(j*nCores, (j+1)*nCores).parallel().forEach(i ->
+                    dataBoxes[i] = timeToFailure_vs_r_Imm_subroutine(duration, i, suscep_params, phase_params));
+        }
+
+        Toolbox.writeTimeToFailureDataToFile(results_directory, file_ID, headers, dataBoxes);
+
+        long finishTime = System.currentTimeMillis();
+        String diff = Toolbox.millisToShortDHMS(finishTime - startTime);
+        System.out.println("results written to file");
+        System.out.println("Time taken: "+diff);
+
+    }
+
+    private static DataBox timeToFailure_vs_r_Imm_subroutine(double duration, int i, Object[] suscep_params, Object[] phase_params){
+        //extract parameters from the arrays
+        double r_imm = (double)suscep_params[4];
+        double c_max = (double)suscep_params[3];
+        double alpha = 0.01; //this stays fixed.
+        double scale = (double)suscep_params[1];
+        double sigma = (double)suscep_params[2];
+        double biofilm_threshold = (double)phase_params[1];
+        double deterioration_ratio = (double)phase_params[2];
+        int thickness_limit = 1; //immigration index limit, sim ends when it gets to this value
+
+        BioSystem bs = new BioSystem(alpha, c_max, biofilm_threshold, deterioration_ratio, scale, sigma, thickness_limit, r_imm);
+        System.out.println("run: "+i+"\t r_imm: "+bs.immigration_rate);
+        //todo - took out the interval thing for now as it doesn't hugely matter for this method if we're not sampling over time
+        while(bs.time_elapsed <= duration){
+            //don't bother with the sampling things for now
+
+            bs.performAction();
+        }
+        if((int)bs.exit_time == 0) bs.exit_time = duration;
+
+        return new DataBox(i, bs.exit_time);
+    }
+
 
     static void timeToFailure_vs_c_max(int nCores, int nReps, Object[] suscep_params, Object[] phase_params){
         //TODO - MAKE SURE THE SECTION IN THE UPDATE BIOFILM SIZE METHOD REGARDING FAILURE LIMIT IS UNCOMMENTED (THE SECOND IF STATEMENT).
@@ -469,7 +547,7 @@ class BioSystem {
 
         // Method takes in no. of cores, no. of reps per core and an array containing the system parameters
 
-        String results_directory = "/Disk/ds-sopa-personal/s1212500/multispecies-sims/time_to_failure";
+        String results_directory = "/Disk/ds-sopa-personal/s1212500/multispecies-sims/time_to_failure_vs_cmax";
         String file_ID = suscep_params[0]+String.format("-c_max=%.2f", suscep_params[3])+"session-2";
         String[] headers = new String[]{"runID", "failure_time"};
 
