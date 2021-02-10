@@ -490,7 +490,7 @@ class BioSystem {
         long startTime = System.currentTimeMillis();
         //this version of the time to failure routine is used to investigate how changing the immigration rate affects the time to failure.
         String results_directory = "/Disk/ds-sopa-personal/s1212500/multispecies-sims/time_to_failure_vs_r_imm";
-        String file_ID = suscep_params[0]+String.format("-r_imm=%.2f", suscep_params[4]);
+        String file_ID = suscep_params[0]+String.format("-r_imm=%.2f", suscep_params[4])+"-session2";
         String[] headers = new String[]{"runID", "failure_time"};
 
         double duration = 365.*24.; //1 year duration.
