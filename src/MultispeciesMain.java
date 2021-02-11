@@ -9,9 +9,9 @@ public class MultispeciesMain {
         int nCores = Integer.parseInt(args[0]); //no. of cores used in parallel runs
         //changed nBlocks to 10, we'll do 10x10 runs to get more cores available
         //todo - below values are a bit outdated, see further below for new values (25/1/21)
-        //todo - for 14% resistance, make sure no. of cores is 4 (100 runs at a time)
-        //todo - for 15% resistance, make sure no. of cores is 25 (25 runs at a time)
-        //todo - for 16% resistance, make sure no. of cores is 25 (25 runs at a time)
+        //todo - for 14% resistance, make sure no. of cores is 25 (4 reps = 100 runs at a time)
+        //todo - for 15% resistance, make sure no. of cores is 25 (2 reps = 50 runs at a time)
+        //todo - for 16% resistance, make sure no. of cores is 25 (2 reps = 50 runs at a time)
         //todo - this will require a different runID offset
         //no. of times a parallel run is performed.  total no. of runs = nCores * nBlocks.
         int nBlocks_14 = 4; //4 runs on each of 25 cores
@@ -20,11 +20,11 @@ public class MultispeciesMain {
         //runID_offset is used to adjust the run ID for successive runs, so that it starts at runID_offset instead of 0
         //todo - make sure the runID_offset is correct (add on 100 for 14, 50 for 15%, 25 for 16%) - check the end of the counters dataframe
         //todo - updated the above values from 25 -> 50 for 15% and 16%, change back if runs fail (25/1/21)
-        int runID_offset_14 = 1100; //session 13 (have 1100 runs but not many successful ones, so running these again now)
-        //todo - trying these on the 24 hour queue for now (update: occasionally both the 15% and 16% runs need >24 hour, so week queue)
-        int runID_offset_15 = 500; //session 13
-        int runID_offset_16 = 375; //session 13
-        String date = "-25-Jan-2021"; //session 13
+        int runID_offset_14 = 1200; //session 14 (have 1100 runs but not many successful ones, so running these again now)
+        //todo - turns out these need to be on the week queue
+        int runID_offset_15 = 550; //session 14
+        int runID_offset_16 = 425; //session 14
+        String date = "-11-Feb-2021"; //session 14
 
         //Depending on our choices of N* and r_det we will either be in phase 2 or 4 of the bftt phase diagram
         //Need to save our values in the corresponding results directory
