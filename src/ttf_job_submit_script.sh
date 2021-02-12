@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#$ -N ttf-14pc-phase2-r_imm_18.0-session2 # job name
+#$ -N ttf-14pc-phase2-r_imm_18.5-session2 # job name
 #$ -V           # use all shell environment variables
 #$ -cwd         # run job in working directory
 # #$ -j y         # merge stdout and stderr to one file

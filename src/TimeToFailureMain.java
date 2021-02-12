@@ -4,7 +4,7 @@ public class TimeToFailureMain {
         //Should make it easier to manage things between the big geno runs and the time to failure code.
         int nCores = Integer.parseInt(args[0]); //no. of cores used in parallel runs
         //time to failure params
-        double r_imm = 18.; //default value is 20. lets do 18 -> 22 in steps of 1.
+        double r_imm = 18.5; //default value is 20. lets do 18 -> 22 in steps of 1.
         double c_max = 5.;
         int nBlocks = 20;
         //[fileID, scale, sigma, c_max, r_imm]
