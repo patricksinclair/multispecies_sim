@@ -21,10 +21,11 @@ class BioSystem {
     private double time_elapsed, exit_time, failure_time;
     private int immigration_index;
 
-    private double biofilm_threshold; //= 0.75;
-    private double deterioration_rate; // = 0.0168;
-    private final int K = 550;
-    private final double g_max = 0.083; //maximum value of the growth rate (2 per day)
+    private double biofilm_threshold; //= 0.75; these are now encapsulated in the phase_N parameter arrays which are passed to the constructor
+    private double deterioration_rate; // = 0.0168; these are now encapsulated in the phase_N parameter arrays which are passed to the constructor
+    // these "final" params are now initialised in the constructor
+    private final int K; // = 550;
+    private final double g_max;// = 0.083; //maximum value of the growth rate (2 per day)
     private final double immigration_rate;// = 20.;
     private final double migration_rate = 1.;
     private final double delta_x = 1.; //thickness of a microhabitat in microns
@@ -40,8 +41,6 @@ class BioSystem {
 
         this.alpha = alpha;
         this.c_max = c_max;
-        this.biofilm_threshold = biofilm_threshold;
-        this.deterioration_rate = deterioration_ratio*g_max; //this is now in terms of the g_max ratio, as seen in the biofilm threshold theory stuff
         this.scale = scale;
         this.sigma = sigma;
         this.microhabitats = new ArrayList<>();
@@ -49,7 +48,13 @@ class BioSystem {
         this.exit_time = 0.;
         this.failure_time = 0.;
         this.immigration_index = 0;
+
+        // variable parameters (varied in the ttf sims, kept constant otherwise)
         this.immigration_rate = 20.;
+        this.g_max = 0.083;
+        this.deterioration_rate = deterioration_ratio*g_max; //this is now in terms of the g_max ratio, as seen in the biofilm threshold theory stuff
+        this.K = 550;
+        this.biofilm_threshold = biofilm_threshold;
 
         //added these initialisers here so we can change the thickness limit with another constructor for the time to failure runs
         //value of 40 for the geno distb ones.
@@ -66,8 +71,8 @@ class BioSystem {
         //this constructor is used for the time to failure vs c_max sims.  thickness limit is set to 1 as any amount of biofilm is classed as a failure.
         this.alpha = alpha;
         this.c_max = c_max;
-        this.biofilm_threshold = biofilm_threshold;
-        this.deterioration_rate = deterioration_ratio*g_max; //this is now in terms of the g_max ratio, as seen in the biofilm threshold theory stuff
+        //this.biofilm_threshold = biofilm_threshold;
+        //this.deterioration_rate = deterioration_ratio*g_max; //this is now in terms of the g_max ratio, as seen in the biofilm threshold theory stuff
         this.scale = scale;
         this.sigma = sigma;
         this.microhabitats = new ArrayList<>();
@@ -75,7 +80,14 @@ class BioSystem {
         this.exit_time = 0.;
         this.failure_time = 0.;
         this.immigration_index = 0;
+        //this.immigration_rate = 20.;
+
+        // variable parameters (varied in the ttf sims, kept constant otherwise)
         this.immigration_rate = 20.;
+        this.g_max = 0.083;
+        this.deterioration_rate = deterioration_ratio*g_max; //this is now in terms of the g_max ratio, as seen in the biofilm threshold theory stuff
+        this.K = 550;
+        this.biofilm_threshold = biofilm_threshold;
 
         //added these initialisers here so we can change the thickness limit with another constructor for the time to failure runs
         this.thickness_limit = thickness_limit;
@@ -91,6 +103,41 @@ class BioSystem {
         //this constructor is used for the time to failure vs r_imm sims.  thickness limit is set to 1 as any amount of biofilm is classed as a failure.
         this.alpha = alpha;
         this.c_max = c_max;
+        //this.biofilm_threshold = biofilm_threshold;
+        //this.deterioration_rate = deterioration_ratio*g_max; //this is now in terms of the g_max ratio, as seen in the biofilm threshold theory stuff
+        this.scale = scale;
+        this.sigma = sigma;
+        this.microhabitats = new ArrayList<>();
+        this.time_elapsed = 0.;
+        this.exit_time = 0.;
+        this.failure_time = 0.;
+        this.immigration_index = 0;
+
+
+        // variable parameters (varied in the ttf sims, kept constant otherwise)
+        this.immigration_rate = immigration_rate;
+        this.g_max = 0.083;
+        this.deterioration_rate = deterioration_ratio*g_max; //this is now in terms of the g_max ratio, as seen in the biofilm threshold theory stuff
+        this.K = 550;
+        this.biofilm_threshold = biofilm_threshold;
+
+        //added these initialisers here so we can change the thickness limit with another constructor for the time to failure runs
+        this.thickness_limit = thickness_limit;
+        this.failure_limit = thickness_limit;
+
+        microhabitats.add(new Microhabitat(K, calc_C_i(0, this.c_max, this.alpha, this.delta_x), scale, sigma, this.biofilm_threshold));
+
+        microhabitats.get(0).setSurface();
+        microhabitats.get(0).addARandomBacterium_x_N(5);
+    }
+
+    private BioSystem(double alpha, double c_max, double biofilm_threshold, double deterioration_ratio, double scale, double sigma, int thickness_limit,
+                      double immigration_rate, double g_max, int K){
+        //this constructor is used for the time to failure vs various param sims.
+
+        // thickness limit is set to 1 as any amount of biofilm is classed as a failure.
+        this.alpha = alpha;
+        this.c_max = c_max;
         this.biofilm_threshold = biofilm_threshold;
         this.deterioration_rate = deterioration_ratio*g_max; //this is now in terms of the g_max ratio, as seen in the biofilm threshold theory stuff
         this.scale = scale;
@@ -100,7 +147,14 @@ class BioSystem {
         this.exit_time = 0.;
         this.failure_time = 0.;
         this.immigration_index = 0;
-        this.immigration_rate = immigration_rate;
+
+        // variable parameters (varied in the ttf sims, kept constant otherwise)
+        // their values will be passed via an array in TimeToFailureMain
+        this.immigration_rate = immigration_rate; //default 20.;
+        this.g_max = g_max; //default 0.083;
+        this.deterioration_rate = deterioration_ratio*g_max; //this is now in terms of the g_max ratio, as seen in the biofilm threshold theory stuff
+        this.K = 550;
+        this.biofilm_threshold = biofilm_threshold;
 
         //added these initialisers here so we can change the thickness limit with another constructor for the time to failure runs
         this.thickness_limit = thickness_limit;
