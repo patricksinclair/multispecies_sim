@@ -153,7 +153,7 @@ class BioSystem {
         this.immigration_rate = immigration_rate; //default 20.;
         this.g_max = g_max; //default 0.083;
         this.deterioration_rate = deterioration_ratio*g_max; //this is now in terms of the g_max ratio, as seen in the biofilm threshold theory stuff
-        this.K = 550;
+        this.K = K; // default 550;
         this.biofilm_threshold = biofilm_threshold;
 
         //added these initialisers here so we can change the thickness limit with another constructor for the time to failure runs
