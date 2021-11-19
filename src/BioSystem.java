@@ -266,18 +266,21 @@ class BioSystem {
         //todo - use this condition for the species composition simulations
         //this stops sims going onn unnecessarily too long. if the biofilm reaches the thickness limit then we record the
         //time this happened at and move on
-//        if(immigration_index==thickness_limit){
-//            exit_time = time_elapsed;
-//            time_elapsed = 9e9; //this way the time elapsed is now way above the duration value, so the simulation will stop
-//        }
+        if(immigration_index==thickness_limit){
+            exit_time = time_elapsed;
+            time_elapsed = 9e9; //this way the time elapsed is now way above the duration value, so the simulation will stop
+
+        }
 
         //todo - use this condition for the time to failure simulations
+        //todo - THIS IF SECTION IS NOW OUTDATED (i think) ONLY USE THE ABOVE ONE INSTEAD.  i think i solved the issues with just using immigration_index and thickness_limit
         //if immigration index is the same as the failure limit, then we also move on
-        if(getSystemSize() == thickness_limit || immigration_index == failure_limit) {
-            exit_time = time_elapsed;
-            failure_time = time_elapsed;
-            time_elapsed = 9e9; //this way the time elapsed is now way above the duration value, so the simulation will stop
-        }
+//        if(getSystemSize() == thickness_limit || immigration_index == failure_limit) {
+//            exit_time = time_elapsed;
+//            failure_time = time_elapsed;
+//            System.out.println("Testy");
+//            time_elapsed = 9e9; //this way the time elapsed is now way above the duration value, so the simulation will stop
+//        }
     }
 
 
@@ -671,7 +674,9 @@ class BioSystem {
         String varied_param_string = (String) model_params.get("varied_param_key"); // Map key of the varied param, also used for file naming
         double varied_param_val = (double) model_params.get(varied_param_string); // numerical value of the model param being varied
 
+        // todo make sure results_directory correct
         String results_directory = "/Disk/ds-sopa-personal/s1212500/multispecies-sims/time_to_failure_vs_"+varied_param_string;
+        //String results_directory = "testo";
         String file_ID = file_prefix+"-"+varied_param_string+String.format("=%.3f", varied_param_val);
         String[] headers = new String[]{"runID", "failure_time"};
 
@@ -714,7 +719,6 @@ class BioSystem {
         //BioSystem bs = new BioSystem(alpha, c_max, biofilm_threshold, deterioration_ratio, scale, sigma, thickness_limit);
         BioSystem bs = new BioSystem(alpha, c_max, biofilm_threshold, deterioration_ratio, scale, sigma, thickness_limit, immigration_rate, g_max, K);
         System.out.println("run: "+i);
-        //todo - took out the interval thing for now as it doesn't hugely matter for this method if we're not sampling over time
         while(bs.time_elapsed <= duration){
             //don't bother with the sampling things for now
             bs.performAction();

@@ -5,6 +5,7 @@ public class TimeToFailureMain {
     public static void main(String[] args) {
         //This class is used as the main for the time to failure simulations.
         //Should make it easier to manage things between the big geno runs and the time to failure code.
+        // todo - make sure nCores is from args
         int nCores = Integer.parseInt(args[0]); //no. of cores used in parallel runs
         // want to do 1000 total reps where n_reps = nCores*nReps
         int nReps = 50;
@@ -17,14 +18,14 @@ public class TimeToFailureMain {
         //time to failure params. these are varied to get ttf vs param plots
         String varied_param_key = "g_max";
         double c_max = 5.;
-        double r_imm = 20; //immigration rate. default value is 20.  (do 18 -> 22 in steps of 1. -done)
+        double r_imm = 20.; //immigration rate. default value is 20.  (do 18 -> 22 in steps of 1. -done)
         double g_max = 0.063; //max growth rate. default value is 0.083. (do 0.063 -> 0.103 in steps of 0.01)
         int K = 550; //carrying capacity. default value is 550
         double biofilm_threshold = 0.75; //biofilm formation density (N = biofilm_threshold*K). default is 0.75 for phase 2 params
         double deterioration_ratio = 0.22; // r_det = deterioration_ratio*g_max. default is 0.22 for phase 2 params
 
         //we'll use an object array to store [directory_ID, N*, r_det_ratio]. default parameter values [0.75, 0.22]
-        Object[] phase2_params = new Object[]{"_phase2", biofilm_threshold, 0.22};
+        //Object[] phase2_params = new Object[]{"_phase2", biofilm_threshold, 0.22};
 
         // we'll use Maps to store the variables instead of this Object array nonsense
         // just do the 14 pc res params for now, can modify the keys etc later if needs be
@@ -44,6 +45,8 @@ public class TimeToFailureMain {
         param_map.put("deterioration_ratio", deterioration_ratio);
 
         BioSystem.timeToFailure_vs_x_param(param_map);
+
+        // System.out.println((double) param_map.get("g_max"));
 
 
         //format of the Object[] params used to be [fileID, scale, sigma, c_max, r_imm]
