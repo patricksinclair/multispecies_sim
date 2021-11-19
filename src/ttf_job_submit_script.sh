@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#$ -N ttf-14pc-phase2-r_imm_18.5-session2 # job name
+#$ -N ttf-14pc-phs2-r_imm-18.5 # job name
 #$ -V           # use all shell environment variables
 #$ -cwd         # run job in working directory
 # #$ -j y         # merge stdout and stderr to one file
@@ -8,7 +8,7 @@
 # Choose a queue:
 # Check options with "qconf -sql"
 # Check details with "qconf -sq <q-name>"
-#$ -q sopa.1.day
+#$ -q cm.7.day // the sopa 1 day queue seems to have been removed.
 
 # Choose a parallel environment:
 # Check options with "qconf -spl"
@@ -20,7 +20,7 @@
 #$ -M p.sinclair@ed.ac.uk
 
 # Set job runtime
-#$ -l h_rt=24:00:00               # I leave this set at 7 days (set at 24 hours for 1 day queue)
+#$ -l h_rt=168:00:00               # I leave this set at 7 days (set at 24 hours for 1 day queue)
 
 
 # load any required modules
@@ -41,6 +41,6 @@ time {
 # put the usual mpirun command here
 # the shell variable $NSLOTS is the number of cores you asked for above
 
-java -cp ".:java_jars/*" TimeToFailureMain $NSLOTS > genoDistb_log.out
+java -cp ".:java_jars/*" TimeToFailureMain $NSLOTS > ttf_log.out
 
 }
