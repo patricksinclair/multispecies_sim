@@ -671,7 +671,7 @@ class BioSystem {
         String varied_param_string = (String) model_params.get("varied_param_key"); // Map key of the varied param, also used for file naming
         double varied_param_val = (double) model_params.get(varied_param_string); // numerical value of the model param being varied
 
-        String results_directory = "/Disk/ds-sopa-personal/s1212500/multispecies-sims/time_to_failure_vs_cmax";
+        String results_directory = "/Disk/ds-sopa-personal/s1212500/multispecies-sims/time_to_failure_vs_"+varied_param_string;
         String file_ID = file_prefix+"-"+varied_param_string+String.format("=%.3f", varied_param_val);
         String[] headers = new String[]{"runID", "failure_time"};
 
