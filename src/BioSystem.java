@@ -153,7 +153,8 @@ class BioSystem {
         this.thickness_limit = thickness_limit;
         this.failure_limit = thickness_limit;
 
-        microhabitats.add(new Microhabitat(this.K, calc_C_i(0, this.c_max, this.alpha, this.delta_x), scale, sigma, this.biofilm_threshold));
+        // use the constructor that ACTUALLY changes g_max
+        microhabitats.add(new Microhabitat(this.K, calc_C_i(0, this.c_max, this.alpha, this.delta_x), scale, sigma, this.biofilm_threshold, this.g_max));
 
         microhabitats.get(0).setSurface();
         microhabitats.get(0).addARandomBacterium_x_N(5);

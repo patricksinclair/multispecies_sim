@@ -5,10 +5,9 @@ public class TimeToFailureMain {
     public static void main(String[] args) {
         //This class is used as the main for the time to failure simulations.
         //Should make it easier to manage things between the big geno runs and the time to failure code.
-        // todo - make sure nCores is from args
         int nCores = Integer.parseInt(args[0]); //no. of cores used in parallel runs
-        // want to do 1000 total reps where n_reps = nCores*nReps
-        int nReps = 50;
+        // want to do 1000 total reps where n_reps = nCores*nReps (increased to 2000)
+        int nReps = 100; // changed 50 -> 100
 
         // log-norm distribution params
         final double scale_14pcres = 2.703747953786337, sigma_14pcres = 0.5690825284230452;

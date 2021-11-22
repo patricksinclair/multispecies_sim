@@ -10,7 +10,7 @@ class Microhabitat {
 
     private int K; //karrying kapacity
     private boolean surface = false, biofilm_region, immigration_zone = false;
-    private double g_max = 0.083; //max growth rate =  2/day
+    private double g_max; //max growth rate =  2/day
     private double uniform_dRate = 0.018; //all bacteria have this death rate
     double biofilm_threshold; //fraction occupied needed to transition to biofilm
 
@@ -23,7 +23,24 @@ class Microhabitat {
         this.biofilm_threshold = biofilm_threshold;
         this.MIC_distribution = new LogNormalDistribution(mu, sigma);
         this.biofilm_region = false;
+
+        this.g_max = 0.083;
     }
+
+    Microhabitat(int K, double c, double scale, double sigma, double biofilm_threshold, double g_max){
+        // this constructor is used to vary the value of g_max, for the ttf simulations
+        this.K = K;
+        this.c = c;
+        double mu = Math.log(scale);
+        this.population = new ArrayList<>(K);
+        this.biofilm_threshold = biofilm_threshold;
+        this.g_max = g_max;
+
+        this.MIC_distribution = new LogNormalDistribution(mu, sigma);
+        this.biofilm_region = false;
+    }
+
+
 
 
     int getN(){
