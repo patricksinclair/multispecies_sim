@@ -6,6 +6,7 @@ public class TimeToFailureMain {
         //This class is used as the main for the time to failure simulations.
         //Should make it easier to manage things between the big geno runs and the time to failure code.
         int nCores = Integer.parseInt(args[0]); //no. of cores used in parallel runs
+        //int nCores = 1;
         // want to do 1000 total reps where n_reps = nCores*nReps (increased to 2000)
         int nReps = 100; // changed 50 -> 100
 
@@ -20,7 +21,7 @@ public class TimeToFailureMain {
         double alpha = 0.01; //slope of biocide gradient
         double r_imm = 20.; //immigration rate. default value is 20.  (do 18 -> 22 in steps of 1. -done)
         double g_max = 0.083; //max growth rate. default value is 0.083. (do 0.063 -> 0.103 in steps of 0.01 -done)
-        int K = 250; //carrying capacity. default value is 550 (do 250 -> 750 in steps of 100)
+        int K = 350; //carrying capacity. default value is 550 (do 350 -> 750 in steps of 100)
         double biofilm_threshold = 0.75; //biofilm formation density (N = biofilm_threshold*K). default is 0.75 for phase 2 params
         double deterioration_ratio = 0.22; // r_det = deterioration_ratio*g_max. default is 0.22 for phase 2 params
 
