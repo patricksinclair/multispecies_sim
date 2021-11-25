@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#$ -N ttf-14pc-phs2-g_max-0.063 # job name
+#$ -N ttf-14pc-phs2-K-250 # job name
 #$ -V           # use all shell environment variables
 #$ -cwd         # run job in working directory
 # #$ -j y         # merge stdout and stderr to one file
@@ -8,7 +8,7 @@
 # Choose a queue:
 # Check options with "qconf -sql"
 # Check details with "qconf -sq <q-name>"
-# #$ -q cm.7.day // the sopa 1 day queue seems to have been removed.
+# #$ -q cm.7.day // the sopa 1 day queue seems to have been removed. (-q option no longer needed)
 
 # Choose a parallel environment:
 # Check options with "qconf -spl"

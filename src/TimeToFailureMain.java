@@ -15,11 +15,12 @@ public class TimeToFailureMain {
         final double scale_16pcres = 2.47772924764521,  sigma_16pcres = 0.7060073500033884;
 
         //time to failure params. these are varied to get ttf vs param plots
-        String varied_param_key = "g_max";
+        String varied_param_key = "K"; // the Map key corresponding to the parameter being varied
         double c_max = 5.;
+        double alpha = 0.01; //slope of biocide gradient
         double r_imm = 20.; //immigration rate. default value is 20.  (do 18 -> 22 in steps of 1. -done)
-        double g_max = 0.063; //max growth rate. default value is 0.083. (do 0.063 -> 0.103 in steps of 0.01)
-        int K = 550; //carrying capacity. default value is 550
+        double g_max = 0.083; //max growth rate. default value is 0.083. (do 0.063 -> 0.103 in steps of 0.01 -done)
+        int K = 250; //carrying capacity. default value is 550 (do 250 -> 750 in steps of 100)
         double biofilm_threshold = 0.75; //biofilm formation density (N = biofilm_threshold*K). default is 0.75 for phase 2 params
         double deterioration_ratio = 0.22; // r_det = deterioration_ratio*g_max. default is 0.22 for phase 2 params
 
@@ -37,6 +38,7 @@ public class TimeToFailureMain {
         param_map.put("scale", scale_14pcres); // lognorm scale param (14 % resistant)
         param_map.put("sigma", sigma_14pcres); // lognorm sigma param (14 % resistant)
         param_map.put("c_max", c_max); // max biocide concn
+        param_map.put("alpha", alpha);
         param_map.put("r_imm", r_imm); // immigration rate
         param_map.put("g_max", g_max); // max growth rate
         param_map.put("K", K); // carrying capacity

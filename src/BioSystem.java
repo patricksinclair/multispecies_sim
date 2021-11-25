@@ -706,7 +706,7 @@ class BioSystem {
 
         //extract parameters from the arrays
         double c_max = (double)model_params.get("c_max");
-        double alpha = 0.01; //this stays fixed.
+        double alpha = (double)model_params.get("alpha"); //0.01; //this stays fixed.
         double scale = (double)model_params.get("scale");
         double sigma = (double)model_params.get("sigma");
         double biofilm_threshold = (double)model_params.get("biofilm_threshold");
