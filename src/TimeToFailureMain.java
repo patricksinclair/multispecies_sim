@@ -20,8 +20,8 @@ public class TimeToFailureMain {
         double c_max = 5.;
         double alpha = 0.01; //slope of biocide gradient
         double r_imm = 20.; //immigration rate. default value is 20.  (do 18 -> 22 in steps of 1. -done)
-        double g_max = 0.083; //max growth rate. default value is 0.083. (do 0.063 -> 0.103 in steps of 0.01 -done (ACTUALLY ALSO DO VALUE BETWEEN 0.073 AND 0.083)
-        int K = 350; //carrying capacity. default value is 550 (do 450 -> 650 in steps of 100)
+        double g_max = 0.083; //max growth rate. default value is 0.083. (do 0.063 -> 0.103 in steps of 0.01 -done (ACTUALLY ALSO DO VALUE BETWEEN 0.073 AND 0.083 - done)
+        int K = 550; //carrying capacity. default value is 550 (do 450 -> 650 in steps of 100 - done)
         double biofilm_threshold = 0.75; //biofilm formation density (N = biofilm_threshold*K). default is 0.75 for phase 2 params
         double deterioration_ratio = 0.12; // r_det = deterioration_ratio*g_max. default is 0.22 for phase 2 params (do 0.12 -> 0.32 in steps of 0.05)
 
