@@ -673,8 +673,8 @@ class BioSystem {
         // Method takes in no. of cores, no. of reps per core and an array containing the system parameters
         String file_prefix = (String) model_params.get("file_prefix");
         String varied_param_string = (String) model_params.get("varied_param_key"); // Map key of the varied param, also used for file naming
-        //double varied_param_val = (double) model_params.get(varied_param_string); // numerical value of the model param being varied
-        double varied_param_val = (Integer) model_params.get(varied_param_string); // todo - change (Integer) back to (double) for non-K values
+        double varied_param_val = (double) model_params.get(varied_param_string); // numerical value of the model param being varied
+        //double varied_param_val = (Integer) model_params.get(varied_param_string); // todo - change (Integer) back to (double) for non-K values
 
         String results_directory = "/Disk/ds-sopa-personal/s1212500/multispecies-sims/time_to_failure_vs_"+varied_param_string;
         //String results_directory = "testo";

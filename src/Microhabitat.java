@@ -77,7 +77,7 @@ class Microhabitat {
 
 
     private double fractionFull(){
-        return getN()/(double) K;
+        return getN()/(double)K;
     }
 
     boolean atBiofilmThreshold(){
