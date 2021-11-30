@@ -23,7 +23,7 @@ public class TimeToFailureMain {
         double g_max = 0.083; //max growth rate. default value is 0.083. (do 0.063 -> 0.103 in steps of 0.01 -done (ALSO DO VALUE BETWEEN 0.073 AND 0.083 - done)
         int K = 500; //carrying capacity. default value is 550 (do 500 -> 600 in steps of 25)
         double biofilm_threshold = 0.75; //biofilm formation density (N = biofilm_threshold*K). default is 0.75 for phase 2 params
-        double deterioration_ratio = 0.22; // r_det = deterioration_ratio*g_max. default is 0.22 for phase 2 params (do 0.12 -> 0.32 in steps of 0.05)
+        double deterioration_ratio = 0.22; // r_det = deterioration_ratio*g_max. default is 0.22 for phase 2 params (do 0.12 -> 0.32 in steps of 0.05 - done)
 
         //we'll use an object array to store [directory_ID, N*, r_det_ratio]. default parameter values [0.75, 0.22]
         //Object[] phase2_params = new Object[]{"_phase2", biofilm_threshold, 0.22};
