@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#$ -N ttf-14pc-phs2-K-500 # job name
+#$ -N ttf-14pc-det_ratio-0.2 # job name
 #$ -V           # use all shell environment variables
 #$ -cwd         # run job in working directory
 # #$ -j y         # merge stdout and stderr to one file
