@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#$ -N ttf-r_imm-19.5-14pc # job name
+#$ -N ttf-K-538-14pc # job name
 #$ -V           # use all shell environment variables
 #$ -cwd         # run job in working directory
 # #$ -j y         # merge stdout and stderr to one file
