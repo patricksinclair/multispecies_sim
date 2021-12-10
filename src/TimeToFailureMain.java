@@ -17,7 +17,7 @@ public class TimeToFailureMain {
 
         //time to failure params. these are varied to get ttf vs param plots
         String varied_param_key = "K"; // the Map key corresponding to the parameter being varied todo - change the (Integer) flag back
-        double c_max = 5.; // defualt is 5
+        double c_max = 5.; // default is 5
         double alpha = 0.01; //slope of biocide gradient. default value is 0.01
         double r_imm = 20; //immigration rate. default value is 20.  (do 18 -> 22 in steps of 1. -done)
         double g_max = 0.083; //max growth rate. default value is 0.083. (do 0.073 -> 0.093 in steps of 0.005)

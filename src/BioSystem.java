@@ -174,6 +174,10 @@ class BioSystem {
     private double getFailure_time(){return failure_time;}
 
 
+    private ArrayList getMicrohabPop(int i){
+        return microhabitats.get(i).getPopulation();
+    }
+
     private int getTotalN(){
         int runningTotal = 0;
         for(Microhabitat m : microhabitats) {
@@ -667,18 +671,19 @@ class BioSystem {
         // Updated updated version of the old time to failure routine.
         // Here we pass all the model params in a Map object, including a string which represents which param we want to vary.
         // Aiming for 1000 reps
-
+        boolean saveFinalPops = true; // if true, write the final genotypes to a file at the end of the simulation
         int nCores = (int)model_params.get("n_cores"), nReps = (int)model_params.get("n_reps");
 
         // Method takes in no. of cores, no. of reps per core and an array containing the system parameters
         String file_prefix = (String) model_params.get("file_prefix");
         String varied_param_string = (String) model_params.get("varied_param_key"); // Map key of the varied param, also used for file naming
-        //double varied_param_val = (double) model_params.get(varied_param_string); // numerical value of the model param being varied
-        double varied_param_val = (Integer) model_params.get(varied_param_string); // todo - change (Integer) back to (double) for non-K values
+        double varied_param_val = (double) model_params.get(varied_param_string); // numerical value of the model param being varied
+        //double varied_param_val = (Integer) model_params.get(varied_param_string); // todo - change (Integer) back to (double) for non-K values
 
         String results_directory = "/Disk/ds-sopa-personal/s1212500/multispecies-sims/time_to_failure_vs_"+varied_param_string;
         //String results_directory = "testo";
         String file_ID = file_prefix+"-"+varied_param_string+String.format("=%.3f", varied_param_val);
+        String file_ID_pops = file_prefix+"-"+varied_param_string+String.format("=%.3f", varied_param_val)+"final-pops"; // file that will save the pops at the end of the simulation
         String[] headers = new String[]{"runID", "failure_time"};
 
         //double duration = 26.*7.*24.; //26 week duration
