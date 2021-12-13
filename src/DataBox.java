@@ -23,7 +23,7 @@ public class DataBox {
         this.exit_time = exit_time;
     }
 
-    public DataBox(int runID, double exit_time, ArrayList final_microhab_pop){
+    public DataBox(int runID, double exit_time, ArrayList<Double> final_microhab_pop){
         // this constructor is used for the time to failure runs where we also want to save the final population genotypes
         this.runID = runID;
         this.exit_time = exit_time;
@@ -38,7 +38,7 @@ public class DataBox {
     public ArrayList<ArrayList<ArrayList<Double>>> getAll_microhab_pops(){return all_microhab_pops;}
 
     public double getExit_time(){return exit_time;}
-    public ArrayList getFinalMicrohabPops(){return final_microhab_pop;}
+    public ArrayList<Double> getFinalMicrohabPops(){return final_microhab_pop;}
 
 
 }

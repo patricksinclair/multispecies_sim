@@ -7,6 +7,56 @@ import java.util.concurrent.TimeUnit;
 
 public class Toolbox {
 
+    public static void writeFinalGenosToCSV(String directoryName, String fileName, DataBox[] dataBoxes){
+        // this is used to write the final populations to a file, specifically for the failure time sims
+
+        // for each row, include the run ID, exit time, then all the genotypes
+        // add K headers for the genos, can remove the empty ones from the datframe later
+
+        int K = 550;
+
+        try {
+
+
+            //directoryName += "/final_genos";
+            File directory = new File(directoryName);
+            if (!directory.exists()) directory.mkdirs();
+
+            File file = new File(directoryName + "/" + fileName + ".csv");
+            FileWriter fw = new FileWriter(file.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
+
+            // write headers to file
+            String headers = "runID,failure_time";
+            for(int i=0; i<K; i++){
+                headers += ",geno_"+String.format("%d", i);
+            }
+
+            bw.write(headers);
+            //bw.newLine();
+
+            for (DataBox db : dataBoxes){
+
+                bw.newLine();
+
+                // generate the output string
+                String output = String.format("%d,%.3f", db.getRunID(), db.getExit_time());
+
+                for(double geno : db.getFinalMicrohabPops()){
+                    // better to use StringBuilder rather than appending to strings a lot, but this way will do for now
+                    output += String.format(",%.4f", geno);
+                }
+
+                bw.write(output);
+            }
+
+            bw.close();
+
+        }catch (IOException e){}
+
+
+    }
+
 
     public static void writeGenosOverTimeToCSV(String directoryName, DataBox dataBox){
         //new method of saving the data for the big geno distb runs.
@@ -16,12 +66,10 @@ public class Toolbox {
         //For simplicity, we'll write these csv files such that each row represents a microhabitat,
         //then we can transpose the dataframes in python later
 
-
         //All the data in a run is stored in a databox.
         //Here, for each databox passed to this method, we iterate through the times list and the 3D arraylist containing all the geno data
         //use outer index of arraylist to iterate through geno(t) and the times list
         //use times list for filenames
-
         try{
 
             //each run has its own directory so we add the run ID here

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#$ -N ttf-K-538-14pc # job name
+#$ -N ttf-g_max-0.-14pc-final_pops # job name
 #$ -V           # use all shell environment variables
 #$ -cwd         # run job in working directory
 # #$ -j y         # merge stdout and stderr to one file

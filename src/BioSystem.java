@@ -174,7 +174,7 @@ class BioSystem {
     private double getFailure_time(){return failure_time;}
 
 
-    private ArrayList getMicrohabPop(int i){
+    private ArrayList<Double> getMicrohabPop(int i){
         return microhabitats.get(i).getPopulation();
     }
 
@@ -683,7 +683,7 @@ class BioSystem {
         String results_directory = "/Disk/ds-sopa-personal/s1212500/multispecies-sims/time_to_failure_vs_"+varied_param_string;
         //String results_directory = "testo";
         String file_ID = file_prefix+"-"+varied_param_string+String.format("=%.3f", varied_param_val);
-        String file_ID_pops = file_prefix+"-"+varied_param_string+String.format("=%.3f", varied_param_val)+"final-pops"; // file that will save the pops at the end of the simulation
+        String file_ID_pops = file_prefix+"-"+varied_param_string+String.format("=%.3f", varied_param_val)+"-final_pops"; // file that will save the pops at the end of the simulation
         String[] headers = new String[]{"runID", "failure_time"};
 
         //double duration = 26.*7.*24.; //26 week duration
@@ -695,10 +695,11 @@ class BioSystem {
         for(int j = 0; j < nReps; j++){
 
             IntStream.range(j*nCores, (j+1)*nCores).parallel().forEach(i ->
-                    dataBoxes[i] = timeToFailure_vs_x_param_subroutine(duration, i, model_params));
+                    dataBoxes[i] = timeToFailure_vs_x_param_subroutine(duration, i, model_params, saveFinalPops));
         }
 
         Toolbox.writeTimeToFailureDataToFile(results_directory, file_ID, headers, dataBoxes);
+        if (saveFinalPops) Toolbox.writeFinalGenosToCSV(results_directory, file_ID_pops, dataBoxes);
 
         long finishTime = System.currentTimeMillis();
         String diff = Toolbox.millisToShortDHMS(finishTime - startTime);
@@ -707,7 +708,7 @@ class BioSystem {
 
     }
 
-    private static DataBox timeToFailure_vs_x_param_subroutine(double duration, int i, Map model_params){
+    private static DataBox timeToFailure_vs_x_param_subroutine(double duration, int i, Map model_params, boolean saveFinalPops){
 
         //extract parameters from the arrays
         double c_max = (double)model_params.get("c_max");
@@ -730,7 +731,9 @@ class BioSystem {
             bs.performAction();
         }
         if((int)bs.exit_time == 0) bs.exit_time = duration;
-        return new DataBox(i, bs.exit_time);
+
+        if (saveFinalPops) return new DataBox(i, bs.exit_time, bs.getMicrohabPop(0)); //get the final microhab pops
+        else return new DataBox(i, bs.exit_time);
     }
 
 
