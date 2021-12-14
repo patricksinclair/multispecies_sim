@@ -680,7 +680,7 @@ class BioSystem {
         double varied_param_val = (double) model_params.get(varied_param_string); // numerical value of the model param being varied
         //double varied_param_val = (Integer) model_params.get(varied_param_string); // todo - change (Integer) back to (double) for non-K values
 
-        String results_directory = "/Disk/ds-sopa-personal/s1212500/multispecies-sims/time_to_failure_vs_"+varied_param_string;
+        String results_directory = "/Disk/ds-sopa-personal/s1212500/multispecies-sims/time_to_failure_vs_"+varied_param_string+"-EXTRA";
         //String results_directory = "testo";
         String file_ID = file_prefix+"-"+varied_param_string+String.format("=%.3f", varied_param_val);
         String file_ID_pops = file_prefix+"-"+varied_param_string+String.format("=%.3f", varied_param_val)+"-final_pops"; // file that will save the pops at the end of the simulation
