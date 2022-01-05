@@ -28,7 +28,7 @@ class BioSystem {
     private final int K; // = 550;
     private final double g_max;// = 0.083; //maximum value of the growth rate (2 per day)
     private final double immigration_rate;// = 20.;
-    private final double migration_rate = 1.;
+    private final double migration_rate = 0.1; // todo - reduced this to investigate impact on second microhabitat transition
     private final double delta_x = 1.; //thickness of a microhabitat in microns
     private double tau = 0.2; //much larger value now that the bug is fixed
     //this is how big the system can get before we exit. should reduce overall simulation duration

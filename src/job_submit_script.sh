@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#$ -N multispec-genoDistb-14pc-phase2-session14 # job name
+#$ -N ms-16pc-reduced_mig-sess-1 # job name
 
 #$ -V           # use all shell environment variables
 #$ -cwd         # run job in working directory
