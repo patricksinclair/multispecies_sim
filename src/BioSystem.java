@@ -458,7 +458,7 @@ class BioSystem {
 
         //unpack the Object arrays here
         String phaseID = String.valueOf(phase_params[0]);
-        String suscepID_andDate = String.valueOf(suscep_params[0]);
+        String suscepID_andDate = String.valueOf(suscep_params[0])+"-migration_rate-0.1"; //todo - ensure migration rate is correct here;
         //headers used for the counters file
         String[] headers = new String[]{"runID", "bf_thickness", "exit_time", "final_pop", "avg_pop", "n_deaths", "n_detachments", "n_immigrations", "n_migrations", "n_replications"};
 
