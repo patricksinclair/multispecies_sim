@@ -23,8 +23,8 @@ public class MultispeciesMain {
         int runID_offset_14 = 1200; //session 14 (have 1100 runs but not many successful ones, so running these again now)
         //todo - turns out these need to be on the week queue
         int runID_offset_15 = 550; //session 14
-        int runID_offset_16 = 0; // session 1 // OLD session 14 (425)
-        String date = "-5-Jan-2022"; //session 14
+        int runID_offset_16 = 100; // session 2 // OLD session 14 (425)
+        String date = "-10-Jan-2022"; //session 2
 
         //Depending on our choices of N* and r_det we will either be in phase 2 or 4 of the bftt phase diagram
         //Need to save our values in the corresponding results directory
