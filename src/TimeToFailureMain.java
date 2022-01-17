@@ -16,13 +16,13 @@ public class TimeToFailureMain {
         final double scale_16pcres = 2.47772924764521,  sigma_16pcres = 0.7060073500033884;
 
         //time to failure params. these are varied to get ttf vs param plots
-        String varied_param_key = "g_max"; // the Map key corresponding to the parameter being varied todo - change the (Integer) flag back
+        String varied_param_key = "biofilm_threshold"; // the Map key corresponding to the parameter being varied todo - change the (Integer) flag back for non-K simulations
         double c_max = 5.; // default is 5
         double alpha = 0.01; //slope of biocide gradient. default value is 0.01
         double r_imm = 20; //immigration rate. default value is 20.  (do 18 -> 22 in steps of 1. -done)
-        double g_max = 0.073; //max growth rate. default value is 0.083. (do 0.073 -> 0.093 in steps of 0.005)
+        double g_max = 0.083; //max growth rate. default value is 0.083. (do 0.073 -> 0.093 in steps of 0.005)
         int K = 550; //carrying capacity. default value is 550 (do 500 -> 600 in steps of 25 -done)
-        double biofilm_threshold = 0.75; //biofilm formation density (N = biofilm_threshold*K). default is 0.75 for phase 2 params
+        double biofilm_threshold = 0.65; //biofilm formation density (N = biofilm_threshold*K). default is 0.75 for phase 2 params
         double deterioration_ratio = 0.22; // r_det = deterioration_ratio*g_max. default is 0.22 for phase 2 params (do 0.2 -> 0.24 in steps of 0.01 -done)
 
         //we'll use an object array to store [directory_ID, N*, r_det_ratio]. default parameter values [0.75, 0.22]
@@ -48,40 +48,6 @@ public class TimeToFailureMain {
 
         BioSystem.timeToFailure_vs_x_param(param_map);
 
-        // System.out.println((double) param_map.get("g_max"));
 
-
-        //format of the Object[] params used to be [fileID, scale, sigma, c_max, r_imm]
-        // We're now varying other params, make new method which takes all the params, use string for file naming
-        // Object[] elements are directory_id, param_id, param_index (used in file naming), scale, sigma, c_max, r_imm, g_max
-//        Object[] ttf_14_resistant_params = new Object[]{"timeToFailure-14_pc_res", 2.703747953786337, 0.5690825284230452,
-//                c_max, r_imm, g_max};
-//        Object[] ttf_15_resistant_params = new Object[]{"timeToFailure-15_pc_res", 2.6133256846855746, 0.6260058161550592, c_max, r_imm, g_max};
-//        Object[] ttf_16_resistant_params = new Object[]{"timeToFailure-16_pc_res", 2.47772924764521, 0.7060073500033884, c_max, r_imm, g_max};
-
-
-        //BioSystem.timeToFailure_vs_r_imm(nCores, nBlocks, ttf_14_resistant_params, phase2_params);
-        //todo - make sure the update biofilm size method has the failure limit check included. (actually changed the thickness limit arguments so this might not be necessary).
-        //BioSystem.timeToFailure_vs_c_max(nCores, nBlocks, ttf_14_resistant_params, phase2_params);
-
-//        Map<String, String> s_map = new HashMap<String, String>();
-//        s_map.put("test", "dog");
-//
-//        Map<String, Double> map = new HashMap<String, Double>();
-//        map.put("dog", 60.);
-//        System.out.println(map.get(s_map.get("test")));
-//
-//        Map<String, Object> uber_map = new HashMap<>();
-//        uber_map.put("dog", 69.);
-//        uber_map.put("testo", "dog");
-//        System.out.println(uber_map.get("dog"));
-//        System.out.println(uber_map.get("testo"));
-//        System.out.println(uber_map.get(uber_map.get("testo")));
-//
-//        double k = (double) uber_map.get(uber_map.get("testo"));
-//
-//        String x = (String) uber_map.get("testo");
-
-        //System.out.println((45. + uber_map.get(uber_map.get("testo"))));
     }
 }

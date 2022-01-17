@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#$ -N ttf-g_max-0.073-14pc-final_pops # job name
+#$ -N ttf-n_thresh-0.65-14pc-final_pops # job name
 #$ -V           # use all shell environment variables
 #$ -cwd         # run job in working directory
 # #$ -j y         # merge stdout and stderr to one file
