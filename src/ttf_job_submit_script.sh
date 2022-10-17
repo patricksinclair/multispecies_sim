@@ -8,7 +8,7 @@
 # Choose a queue:
 # Check options with "qconf -sql"
 # Check details with "qconf -sq <q-name>"
-# #$ -q cm.7.day // the sopa 1 day queue seems to have been removed. (-q option no longer needed)
+# #$ -q cm.7.day # the sopa 1 day queue seems to have been removed. (-q option no longer needed)
 
 # Choose a parallel environment:
 # Check options with "qconf -spl"
